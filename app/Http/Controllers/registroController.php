@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class registroController extends Controller
 {
-    public function buscarCedulaForm()
+   public function buscarCedulaForm()
     {
         return view('vista-completar-registro');
     }
@@ -19,12 +19,12 @@ class registroController extends Controller
     {
         $request->validate(['cedula'=> 'required']); 
         $empleado = empleado::where('cedula', $request->cedula)->first(); 
-        if(!$empleado){ 
-            return back()->with('error', 'La cedula no está registrada'); 
-        }
-
-        return redirect()->route('completar', ['empleado'=> $empleado->id]);   
+      if(!$empleado){ 
+           return back()->with('error', 'La cedula no está registrada'); 
+      }
+      return redirect()->route('completar', ['empleado'=> $empleado->id]);   
     }
+    
 
     public function completarForm(empleado $empleado)     
     {

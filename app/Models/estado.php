@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory; 
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 class estado extends Model
 {
     use HasFactory;     
@@ -12,9 +12,9 @@ class estado extends Model
     protected $table = 'estado'; 
     protected $fillable=['nombre'];  
     
-    public function municipio(): HasMany  
+    public function Municipios(): HasMany
     {
-        return $this->hasMany(municipio::class);  
+        return $this->hasMany(municipio::class);
 }
 
 }

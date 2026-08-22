@@ -6,5 +6,9 @@
       
     <head>
     <h1>Bienvenido, {{session('nombreUsuario')}}</h1>  
+
     </head>
+
+
+    <a href="{{url('/inventario')}}">Control de inventario</a>
 @endsection
