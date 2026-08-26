@@ -76,6 +76,6 @@ class InventarioController extends Controller
 
         $inventario->delete();
 
-        return redirect()->route('inventario.index')->with('success', 'Producto eliminada con éxito.');
+        return redirect()->route('inventario.index')->with('success', 'Producto eliminado con éxito..');
     }
 }

@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -13,13 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('inventarios', function (Blueprint $table) {
-            // Creamos usuario_id como nullable para no romper registros existentes
-            // Apunta a id de la tabla usuario_sistema (o 'users' si usas la tabla por defecto)
-            $table->foreignId('usuario_id')
-                  ->nullable()
-                  ->after('id')
-                  ->constrained('usuario_sistema')
-                  ->nullOnDelete(); 
+            //
+        $table->softDeletes();
         });
     }
 
@@ -29,11 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('inventarios', function (Blueprint $table) {
-            $table->dropForeign(['usuario_id']);
-            $table->dropColumn('usuario_id');
+            // 
+            $table->dropSoftDeletes();
         });
     }
-
-    
-
 };

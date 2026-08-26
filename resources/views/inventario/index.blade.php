@@ -5,7 +5,7 @@
 @if (session('success'))
 <p style="color:green;">{{ session('success')}}</p>
 @endif
-<table class="table table-light" >
+<table class="table table-striped" >
 
 <thead class="thead-light">
 <tr>
@@ -33,19 +33,19 @@
         <td>{{$inventario->modelo}}</td>
         <td>{{$inventario->serial}}</td>
         <td>{{$inventario->created_at}}</td>
-        <td> <a href="{{url('/inventario/'.$inventario->id.'/edit') }}">Editar</a> | 
+        <td> <a class="btn btn-primary btn-sm" href="{{url('/inventario/'.$inventario->id.'/edit') }}">Editar</a>
            
             <form method="post" action="{{url('/inventario/'.$inventario->id)}}">
                 @csrf
                 @method('DELETE')
-        <button  type="submit" onclick="return confirm('segurisimo?');">Borrar</button>
+        <button  type="submit" class="btn btn-danger btn-sm" onclick="return confirm('segurisimo?');">Borrar</button>
              </form>
     </td>
         
     </tr>
     @endforeach
 </tbody>
- <a type="button" href="{{route('inventario.create')}}" method="GET">picame</a>
+ <a class="btn btn-success" type="button" href="{{route('inventario.create')}}" method="GET">picame</a>
 </table>
 
 
