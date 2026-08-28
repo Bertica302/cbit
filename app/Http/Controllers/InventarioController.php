@@ -44,7 +44,6 @@ class InventarioController extends Controller
 
         $datos_validos['usuario_id'] = $request->session()->get('id');
         Inventario::create($datos_validos);
-
         return redirect()->route('inventario.index')->with('success', 'registro realizado exitosamente');
     }
 
