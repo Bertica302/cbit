@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventario;
+use App\Models\usuario_sistema;
 use Illuminate\Http\Request;
 use Nette\Schema\Message;
 use Psy\TabCompletion\Matcher\FunctionDefaultParametersMatcher;
@@ -63,6 +64,10 @@ class InventarioController extends Controller
             'serial' => 'required'
         ], ['*.required'=> 'El campo :attribute es obligatorio.']);
         $datos_validos['usuario_id'] = $request->session()->get('id');
+        
+  
+
+       //actualizacion en la base de datos y retorno a la vista index
         $inventario->update($datos_validos);
         return redirect()->route('inventario.index')->with('success', 'cambios realizado exitosamente');
 

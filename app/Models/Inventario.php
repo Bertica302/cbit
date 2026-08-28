@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
-use Override;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Models\Activity;
+
+
 
 class Inventario extends Model
 {
@@ -19,7 +21,7 @@ protected $fillable = [
         'marca',
         'modelo',
         'serial',
-        'usuario',
+        'usuario_id',
         'created_at',
     ];
 
@@ -30,15 +32,23 @@ return $this->belongsTo(usuario_sistema::class, 'usuario_id');
 
 }
 
-#[Override]
 	public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
         ->logAll()
         ->logOnlyDirty()
-        ->dontSubmitEmptyLogs();
+        ->dontSubmitEmptyLogs()
+        ->useLogName('Inventario');
     }
 
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $usuarioId = session('id');
+        if ($usuarioId) {
+            $activity->causer_id = $usuarioId;
+            $activity->causer_type = \App\Models\usuario_sistema::class;
+        }
+    }
 
 
 
