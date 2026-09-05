@@ -32,8 +32,8 @@ Route::post('/logout', [inicioController::class, 'logout'])->name('logout');
 // Retrieved 2026-08-06, License - CC BY-SA 4.0
 //   BIEN: Este formato sí vincula el 'use' de arriba
 
-Route::resource('/inventario', InventarioController::class);
-Route::get('/registroInventario', [InventarioController::class, "inventario_create"])->name("create");
+
+
 Route::get('/registro/buscar', [registroController::class, "buscarCedulaForm"])->name("busqueda"); 
 Route::post('/registro/buscar', [registroController::class, "buscarCedula"])->name("search"); 
 Route::get('/registro/completar/{empleado}', [registroController::class, "completarForm"])->name("completar");  
@@ -41,3 +41,6 @@ Route::post('/registro/completar/{empleado}', [registroController::class, "compl
 Route::get('/usuario/registro/{empleado}', [usuarioController::class, "UserRegistro"])->name("usuario-registro");
 Route::post('/usuario/registro/{empleado}', [usuarioController::class, "storeUsuario"])->name("usuario-store");  
 
+// Rutas de inventario
+Route::get('/inventario/search', [InventarioController::class, 'search'])->name('inventario.search');
+Route::resource('/inventario', InventarioController::class);

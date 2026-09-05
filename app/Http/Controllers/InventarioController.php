@@ -82,4 +82,16 @@ class InventarioController extends Controller
 
         return redirect()->route('inventario.index')->with('success', 'Producto eliminado con éxito..');
     }
+
+    //filtro por nombre usando el Scopesearch en el modelo Inventario 
+    public function search(Request $request)
+ {
+
+    $inventarios = Inventario::search($request->search)
+    ->with('usuario')
+    ->paginate(10)
+    ->withQueryString();
+
+    return view('inventario.index', compact('inventarios'));
+ }
 }

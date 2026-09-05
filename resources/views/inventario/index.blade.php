@@ -5,8 +5,17 @@
 @if (session('success'))
 <p style="color:green;">{{ session('success')}}</p>
 @endif
-<table class="table table-striped" >
 
+<form class="row g-3" method="GET" action="{{ route('inventario.search') }}">
+  <div class="col-auto">
+    <label for="staticSearch" class="visually-hidden">Buscar</label>
+    <input type="search" name="search" class="form-control" id="staticSearch" value="{{request('search')}}">
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary mb-3">Buscar</button>
+  </div>
+</form>
+<table class="table table-striped" id="TablaIndex" >
 <thead class="thead-light">
 <tr>
     <th>#</th>
@@ -45,8 +54,8 @@
     </tr>
     @endforeach
 </tbody>
- <a class="btn btn-success" type="button" href="{{route('inventario.create')}}" method="GET">picame</a>
-</table>
 
+</table>
+ <a class="btn btn-success" type="button" href="{{route('inventario.create')}}" method="GET">picame</a>
 
 @endsection
