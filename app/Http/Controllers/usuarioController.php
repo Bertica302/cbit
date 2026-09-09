@@ -20,8 +20,8 @@ $request->validate([
             'clave'=> 'required|min:6',     
             'pregunta1'=>'required', 
             'respuesta1'=>'required', 
-            'pregunta2'=>'required',
-           'respuesta2'=>'required', 
+            //'pregunta2'=>'required',
+           //'respuesta2'=>'required', 
             'pregunta3'=>'required', 
             'respuesta3'=>'required',        
         ]); 
@@ -31,11 +31,11 @@ $request->validate([
             'nombreUsuario'=> $request->nombreUsuario, 
             'clave'=>bcrypt($request->clave), 
             'pregunta1'=> $request->pregunta1, 
-            'respuesta1'=> $request->respuesta1,
-            'pregunta2'=> $request->pregunta2, 
-            'respuesta2'=> $request->respuesta2,  
+            'respuesta1'=> Hash::make( $request->respuesta1), 
+            //'pregunta2'=> $request->pregunta2, 
+            //'respuesta2'=> $request->respuesta2,  
             'pregunta3'=> $request->pregunta3, 
-            'respuesta3' => $request->respuesta3, 
+            'respuesta3' => Hash::make($request->respuesta3), 
         ]); 
 
         return redirect()->route('iniciosesion')->with('success', 'Sus Datos se Han Guardado Exitosamente');    

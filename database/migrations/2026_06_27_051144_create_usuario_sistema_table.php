@@ -17,14 +17,14 @@ return new class extends Migration
             $table->string('clave');
             $table->string('pregunta1');
             $table->string('respuesta1');
-            $table->string('pregunta2');
-            $table->string('respuesta2'); 
             $table->string('pregunta3');
             $table->string('respuesta3');
              $table->foreignId('empleado_id')
              ->constrained('empleado')
              ->onUpdate('cascade')
              ->onDelete('cascade');
+             //$table->string('pregunta2');
+            //$table->string('respuesta2'); 
             //$table->unsignedBigInteger('empleado_id');  
             //$table->foreign('empleado_id')
             //->references('id')

@@ -29,6 +29,7 @@
         <button type="submit">Ingresar</button>
         </br>
         <a href="{{route ('busqueda')}}"> ¿No tienes una cuenta? ¡Regístrate! 
+          <a href="{{route ('buscar.usuario')}}">Olvidé Mi Contraseña   
 </form>
 
 
