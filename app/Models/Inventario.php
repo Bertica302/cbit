@@ -55,15 +55,14 @@ return $this->belongsTo(usuario_sistema::class, 'usuario_id');
         $query->when($term, function (Builder $query, string $term) {
             $query->where(function (Builder $query) use ($term) {
                $query->where('nombre', 'like', "%{$term}%")
-               ->orWhere('tipo', 'like', "%{$term}%")
-                ->orWhere('marca', 'like', "%{$term}%")
-                ->orWhere('modelo', 'like', "%{$term}%")
-                ->orWhere('serial', 'like', "%{$term}%")
-                ->orWhereHas('usuario', function (Builder $usuarioQuery) use ($term) {
-                    $usuarioQuery->where('nombreUsuario', 'like', "%{$term}%");
-                });
+               ->orwhere('tipo', 'like', "%{$term}%")
+                ->orwhere('marca', 'like', "%{$term}%")
+                ->orwhere('modelo', 'like', "%{$term}%")
+                ->orwhere('serial', 'like', "%{$term}%");
             });
-        });
+        }); 
+
+
     }
 
 

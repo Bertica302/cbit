@@ -11,13 +11,9 @@ use Psy\TabCompletion\Matcher\FunctionDefaultParametersMatcher;
 class InventarioController extends Controller
 {
     //mostrar el inventario (read)
-    public function index(Request $request)
+    public function index()
     {
-        $query = Inventario::query()->with('usuario');
-
-        $this->applyFilters($query, $request);
-
-        $datos['inventarios'] = $query->paginate(10)->withQueryString();
+        $datos['inventarios'] = Inventario::with('usuario')->paginate(10);
         return view('inventario.index', $datos);
     }
 
@@ -89,47 +85,13 @@ class InventarioController extends Controller
 
     //filtro por nombre usando el Scopesearch en el modelo Inventario 
     public function search(Request $request)
-    {
-        return $this->index($request);
-    }
+ {
 
-    protected function applyFilters($query, Request $request): void
-    {
-        if ($request->filled('search')) {
-            $query->where(function ($subQuery) use ($request) {
-                $search = trim($request->search);
+    $inventarios = Inventario::search($request->search)
+    ->with('usuario')
+    ->paginate(10)
+    ->withQueryString();
 
-                $subQuery->where('nombre', 'like', "%{$search}%")
-                    ->orWhere('tipo', 'like', "%{$search}%")
-                    ->orWhere('estado', 'like', "%{$search}%")
-                    ->orWhere('marca', 'like', "%{$search}%")
-                    ->orWhere('modelo', 'like', "%{$search}%")
-                    ->orWhere('serial', 'like', "%{$search}%");
-            });
-        }
-
-        if ($request->filled('tipo')) {
-            $query->where('tipo', 'like', "%{$request->tipo}%");
-        }
-
-        if ($request->filled('estado')) {
-            $query->where('estado', 'like', "%{$request->estado}%");
-        }
-
-        if ($request->filled('marca')) {
-            $query->where('marca', 'like', "%{$request->marca}%");
-        }
-
-        if ($request->filled('modelo')) {
-            $query->where('modelo', 'like', "%{$request->modelo}%");
-        }
-
-        if ($request->filled('serial')) {
-            $query->where('serial', 'like', "%{$request->serial}%");
-        }
-
-        if ($request->filled('fecha_ingreso')) {
-            $query->whereDate('created_at', $request->fecha_ingreso);
-        }
-    }
+    return view('inventario.index', compact('inventarios'));
+ }
 }
