@@ -4,22 +4,61 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventario;
 use App\Models\usuario_sistema;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Nette\Schema\Message;
-use Psy\TabCompletion\Matcher\FunctionDefaultParametersMatcher;
 
 class InventarioController extends Controller
 {
     //mostrar el inventario (read)
-    public function index()
+    public function index(Request $request)
     {
         $query = Inventario::query()->with('usuario');
 
         $this->applyFilters($query, $request);
 
         $datos['inventarios'] = $query->paginate(5)->withQueryString();
-        $datos['inventarios'] = Inventario::with('usuario')->paginate(10);
         return view('inventario.index', $datos);
+    }
+
+    private function applyFilters(Builder $query, Request $request): Builder
+    {
+        $request->validate([
+            'usuario' => 'nullable|string|max:255',
+            'nombre' => 'nullable|string|max:255',
+            'tipo' => 'nullable|string|max:255',
+            'modelo' => 'nullable|string|max:255',
+            'estado' => 'nullable|string|max:255',
+            'marca' => 'nullable|string|max:255',
+            'serial' => 'nullable|string|max:255',
+            'fecha' => 'nullable|date_format:Y-m-d',
+            'search' => 'nullable|string|max:255',
+        ]);
+
+        $query->search($request->input('search'));
+
+        foreach (['nombre', 'tipo', 'modelo', 'marca', 'serial'] as $field) {
+            if ($request->filled($field)) {
+                $query->where($field, 'like', '%' . $request->input($field) . '%');
+            }
+        }
+
+        if ($request->filled('estado')) {
+            $estado = mb_strtolower(trim($request->input('estado')));
+            $query->whereRaw('LOWER(TRIM(estado)) = ?', [$estado]);
+        }
+
+        if ($request->filled('usuario')) {
+            $usuario = mb_strtolower(trim($request->input('usuario')));
+            $query->whereHas('usuario', function (Builder $usuarioQuery) use ($usuario) {
+                $usuarioQuery->whereRaw('LOWER(TRIM(nombreUsuario)) LIKE ?', ['%' . $usuario . '%']);
+            });
+        }
+
+        if ($request->filled('fecha')) {
+            $query->whereDate('created_at', $request->input('fecha'));
+        }
+
+        return $query;
     }
 
     //mostrar formulario de creacion
@@ -91,11 +130,9 @@ class InventarioController extends Controller
     //filtro por nombre usando el Scopesearch en el modelo Inventario 
     public function search(Request $request)
  {
-
-    $inventarios = Inventario::search($request->search)
-    ->with('usuario')
-    ->paginate(10)
-    ->withQueryString();
+         $query = Inventario::query()->with('usuario');
+         $this->applyFilters($query, $request);
+         $inventarios = $query->paginate(5)->withQueryString();
 
     return view('inventario.index', compact('inventarios'));
  }
