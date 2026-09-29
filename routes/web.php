@@ -16,6 +16,10 @@ Route::get('/', function () {
 Route::get('/iniciosesion', [inicioController::class, "showLogin"])->name("iniciosesion");
 Route::post('/iniciosesion', [inicioController::class, "login"])->name("iniciosesion.post"); 
 
+Route::get('/admin/dashboard', function() {
+    return view('admin.dashboard');
+})->name('admin.dashboard')->middleware('rol:1');
+
 Route::get('dashboard', function () {
  if(!session()->has ('id')) {
     return redirect('/iniciosesion');  

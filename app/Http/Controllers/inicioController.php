@@ -24,11 +24,21 @@ $usuario = usuario_sistema::where('nombreUsuario', $request->nombreUsuario)->fir
         return back()->withErrors(['nombreUsuario'=> 'credenciales incorrectas']);
     }
 
+    $empleado = $usuario->empleado;
+    if (!$empleado){
+        return back()->withErrors(['nombreUsuario'=> 'No se encontró un empleado asociado a este usuario.']);
+    }
+
+    $request->session()->regenerate();
     session([
-        'id'=> $usuario->id,
-         'nombreUsuario'=>$usuario->nombreUsuario,
-         //'clave'=>$usuario->clave
+        'id' => $usuario->id,
+        'nombreUsuario' => $usuario->nombreUsuario,
+        'id_rol' => $empleado->rol_id,
     ]);
+
+    if ((int) $empleado->rol_id === 1) {
+        return redirect()->route('admin.dashboard');
+    }
 
     return redirect()->route('dashboard');  
 }

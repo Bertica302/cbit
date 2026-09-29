@@ -17,7 +17,7 @@ class InventarioController extends Controller
 
         $this->applyFilters($query, $request);
 
-        $datos['inventarios'] = $query->paginate(10)->withQueryString();
+        $datos['inventarios'] = $query->paginate(5)->withQueryString();
         return view('inventario.index', $datos);
     }
 
