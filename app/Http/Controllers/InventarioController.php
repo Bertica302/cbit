@@ -13,6 +13,11 @@ class InventarioController extends Controller
     //mostrar el inventario (read)
     public function index()
     {
+        $query = Inventario::query()->with('usuario');
+
+        $this->applyFilters($query, $request);
+
+        $datos['inventarios'] = $query->paginate(5)->withQueryString();
         $datos['inventarios'] = Inventario::with('usuario')->paginate(10);
         return view('inventario.index', $datos);
     }
