@@ -5,6 +5,7 @@ use App\http\Controllers\inicioController;
 use App\http\Controllers\registroController; 
 use App\http\Controllers\usuarioController; 
 use App\http\Controllers\RecuperacionController;  
+use App\http\Controllers\InscripcionController; 
 use App\http\Middleware\RolMiddleware;   
 //use App\http\Controllers\ubicacionController;  
 
@@ -22,9 +23,16 @@ Route::post('/iniciosesion', [inicioController::class, "login"])->name("iniciose
 //} 
 //})->name('dashboard');
 
+//Route::get('/register', function (){
+    //if (!empleado::where('rol_id', 2)->exists()){
+        //return redirect('/install');
+    //}
+    //return redirect('registro/buscar');  
+     //});     
+
 Route::get('/dashboard/empleado', function () {
     return view('dashboard');   
-})->name('dashboard');
+})->name('dashboard');  
 
 Route::get('/dashboard/admin', function () {
     return view('menus.menuAdmin');   
@@ -43,7 +51,7 @@ Route::get('/dashboard/admin', function () {
 //})->name('administradores');  
 
 //Route::middleware('rol_id:1')->get('/empleado/inicio', function(){
-    //return view('dashboard');
+    //return view('dashboard'); 
 //})->name('dashboard'); 
 
 //Route::middleware('rol_id:2')->get('/admin/inicio', function(){
@@ -52,6 +60,8 @@ Route::get('/dashboard/admin', function () {
 
 Route::post('/logout', [inicioController::class, 'logout'])->name('logout'); 
 
+Route::get('/install', [registroController::class, "PrimerRegistro"])->name("PrimerRegistro");      
+Route::post('/store', [registroController::class, "storeAdmin"])->name("RegistroAdministrador");         
 
 Route::get('/registro/buscar', [registroController::class, "buscarCedulaForm"])->name("busqueda"); 
 Route::post('/registro/buscar', [registroController::class, "buscarCedula"])->name("search"); 
@@ -67,8 +77,11 @@ Route::get('/recuperar/codigo/{id}', [RecuperacionController::class, "mostrarCod
  Route::post('/recuperar/codigo/{id}', [RecuperacionController::class, "codigoValidacion"])->name("codigo.validado");   
  Route::get('/recuperar/NuevaClave/{id}', [RecuperacionController::class, "ModificarClave"])->name("claveNueva");
  Route::post('/recuperar/nuevaClave/{id}', [RecuperacionController::class, "SaveNewClave"])->name("Save.clave");  
-     
-  
-
+    
+ Route::get('/menu/actividades', [InscripcionController::class, "VistaCursos"])->name("actividades.menu");      
+ Route::get('/curso/inscribir', [InscripcionController::class, "VistaInscrip"])->name("Cursos");  
+ 
+ 
+ 
 
 

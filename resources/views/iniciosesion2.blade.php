@@ -28,8 +28,18 @@
 
         <button type="submit">Ingresar</button>
         </br>
-        <a href="{{route ('busqueda')}}"> ¿No tienes una cuenta? ¡Regístrate! 
-          <a href="{{route ('buscar.usuario')}}">Olvidé Mi Contraseña   
+
+        @php 
+        $rutaRegistro = \App\Models\empleado::where('rol_id', 2)->exists()   
+        ? route('busqueda')
+        : route('PrimerRegistro') 
+        @endphp
+
+    </br></br>
+        <a href="{{$rutaRegistro}}" class="btn btn-primary"> ¿No tienes una cuenta? ¡Regístrate! </a>  
+    </br>
+          <a href="{{route ('buscar.usuario')}}">Olvidé Mi Contraseña </a>    
+           
 </form>
 
 
