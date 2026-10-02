@@ -26,6 +26,15 @@
                             Control de inventario
                         </a>
                     </div>
+
+                    <br class="my-4">
+
+                                        <div class="d-flex justify-content-center">
+                        <a href="{{ url('/empleados') }}" class="btn btn-primary btn-lg px-4 shadow-sm">
+                            <i class="bi bi-box-seam me-2"></i>
+                            Control de empleados
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -5,6 +5,7 @@ use App\Http\Controllers\inicioController;
 use App\Http\Controllers\registroController;
 use App\Http\Controllers\InventarioController; 
 use App\Http\Controllers\usuarioController; 
+use App\Http\Controllers\EmpleadosController;
 
 //use App\http\Controllers\ubicacionController;  
 
@@ -44,3 +45,12 @@ Route::post('/usuario/registro/{empleado}', [usuarioController::class, "storeUsu
 // Rutas de inventario
 Route::get('/inventario/search', [InventarioController::class, 'search'])->name('inventario.search');
 Route::resource('/inventario', InventarioController::class);
+
+
+// Rutas de empleados
+
+
+// Mostrar todos los empleados
+Route::get('/empleados', [EmpleadosController::class, 'index'])->name('empleados.index');
+//mostrar perfil de empleado
+Route::get('/empleados/{empleado}', [EmpleadosController::class, 'show'])->name('empleados.show');
