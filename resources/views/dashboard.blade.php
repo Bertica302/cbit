@@ -35,6 +35,52 @@
                             Control de empleados
                         </a>
                     </div>
+
+                       <br class="my-4">
+
+                                        <div class="d-flex justify-content-center">
+                        <a href="" class="btn btn-primary btn-lg px-4 shadow-sm">
+                            <i class="bi bi-box-seam me-2"></i>
+                            Asistencias
+                        </a>
+                    </div>
+
+
+                       <br class="my-4">
+
+                                        <div class="d-flex justify-content-center">
+                        <a href="" class="btn btn-primary btn-lg px-4 shadow-sm">
+                            <i class="bi bi-box-seam me-2"></i>
+                            Otros Cbits
+                        </a>
+                    </div>
+
+                       <br class="my-4">
+
+                                        <div class="d-flex justify-content-center">
+                        <a href="" class="btn btn-primary btn-lg px-4 shadow-sm">
+                            <i class="bi bi-box-seam me-2"></i>
+                            Ver Perfil
+                        </a>
+                    </div>
+
+                                           <br class="my-4">
+
+                                        <div class="d-flex justify-content-center">
+                        <a href="{{ route('actividades.menu')}}" class="btn btn-primary btn-lg px-4 shadow-sm">
+                            <i class="bi bi-box-seam me-2"></i>
+                            Actividades
+                        </a>
+                    </div>
+</br>
+<form action="{{ route('logout') }}" method="POST">
+    @csrf
+    <button type="submit" class="btn btn-outline-danger">
+        <i class="bi bi-box-arrow-right me-2"></i>
+        Cerrar sesión
+    </button>
+</form>
+
                 </div>
             </div>
         </div>

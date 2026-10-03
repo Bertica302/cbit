@@ -16,14 +16,15 @@ class VerificarRol
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
 
-    if (!$request->session()->has('id')) {
+    if(!$request->Session()->has('id')){
         return redirect()->route('iniciosesion');
     }
-    $idRolUsuario = (string) $request->session()->get('id_rol');
+$idRolUsuario = (string) $request->session()->get('rol_id');
 
-    if (!in_array($idRolUsuario, $roles, true)) {
-        abort(403, 'No tienes permiso para acceder a esta página.');
-    }
+if (!in_array($idRolUsuario, $roles, true)){
+
+    abort(403, 'No tienes permiso para acceder a esta página.');
+}
 
 
         return $next($request);

@@ -20,4 +20,15 @@ protected $table = '_c_b_i_t';
     public function parroquia(){ 
         return $this->belongsTo(parroquia::class);     
         }
+
+public function actividad(): HasMany 
+    {
+           return $this->hasMany(actividad::class);    
+    }
+
+public function inscripcion_curso(): HasMany
+    {
+           return $this->hasMany(inscripcion_curso::class);     
+    }
+
 }
