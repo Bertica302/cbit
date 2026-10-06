@@ -1,38 +1,7 @@
 @extends('layouts2.app')
 
 @push('styles')
-<style>
-    .employee-page {
-        --employee-ink: #183b3a;
-        --employee-muted: #647675;
-        --employee-accent: #087f70;
-        --employee-line: #dce7e4;
-        color: var(--employee-ink);
-        font-family: 'DM Sans', sans-serif;
-    }
-    .employee-page .employee-heading { max-width: 1080px; margin: 0 auto 1.5rem; }
-    .employee-page .employee-eyebrow { color: var(--employee-accent); font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-    .employee-page .employee-title { color: var(--employee-ink); font-size: 1.8rem; font-weight: 700; }
-    .employee-page .employee-subtitle { color: var(--employee-muted); }
-    .employee-page .employee-count { color: var(--employee-accent); font-size: .9rem; font-weight: 700; }
-    .employee-page .employee-table-wrap { max-width: 1080px; margin: 0 auto; border: 1px solid var(--employee-line); border-radius: 8px; background: #fff; overflow: hidden; }
-    .employee-page .employee-table { margin: 0; }
-    .employee-page .employee-table thead th { padding: .9rem 1rem; background: #edf5f2; border-bottom: 1px solid var(--employee-line); color: var(--employee-ink); font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
-    .employee-page .employee-table tbody td { padding: .9rem 1rem; border-color: var(--employee-line); color: #304b49; }
-    .employee-page .employee-table tbody tr:hover { background: #f7faf9; }
-    .employee-page .employee-name { color: var(--employee-ink); font-weight: 700; text-decoration: none; }
-    .employee-page .employee-name:hover { color: var(--employee-accent); text-decoration: underline; }
-    .employee-page .employee-muted { color: var(--employee-muted); }
-    .employee-page .btn-employee { border-radius: 6px; font-weight: 600; }
-    .employee-page .btn-employee-primary { border-color: var(--employee-accent); background: var(--employee-accent); color: #fff; }
-    .employee-page .btn-employee-primary:hover { border-color: #06695e; background: #06695e; color: #fff; }
-    .employee-page .btn-employee-outline { border-color: #a9c5bd; color: var(--employee-ink); }
-    .employee-page .btn-employee-outline:hover { border-color: var(--employee-accent); background: #edf5f2; color: var(--employee-ink); }
-    @media (max-width: 575.98px) {
-        .employee-page .employee-title { font-size: 1.5rem; }
-        .employee-page .employee-table thead th, .employee-page .employee-table tbody td { padding: .7rem; }
-    }
-</style>
+    @vite('resources/css/app.css')
 @endpush
 
 @section('content')
@@ -45,6 +14,52 @@
             </div>
             <div class="employee-count">{{ $empleados->count() }} {{ $empleados->count() === 1 ? 'empleado' : 'empleados' }}</div>
         </header>
+
+        @if ($errors->any())
+            <div class="alert alert-danger employee-filters" role="alert">
+                Revisa los valores de los filtros e inténtalo de nuevo.
+            </div>
+        @endif
+
+        <form class="employee-filters row g-3 align-items-end" method="GET" action="{{ route('empleados.index') }}">
+            <div class="col-12 col-md-5">
+                <label for="employeeSearch" class="form-label">Buscar empleado</label>
+                <input
+                    type="search"
+                    class="form-control"
+                    id="employeeSearch"
+                    name="search"
+                    value="{{ request('search') }}"
+                    placeholder="Nombre, apellido o correo"
+                >
+            </div>
+            <div class="col-12 col-md-3">
+                <label for="employeeCbit" class="form-label">CBIT</label>
+                <select class="form-select" id="employeeCbit" name="cbit_id">
+                    <option value="">Todos los CBIT</option>
+                    @foreach ($cbits as $cbit)
+                        <option value="{{ $cbit->id }}" @selected((string) request('cbit_id') === (string) $cbit->id)>
+                            {{ $cbit->nombre }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-12 col-md-2">
+                <label for="employeeCedula" class="form-label">Cédula</label>
+                <input
+                    type="search"
+                    class="form-control"
+                    id="employeeCedula"
+                    name="cedula"
+                    value="{{ request('cedula') }}"
+                    placeholder="Número"
+                >
+            </div>
+            <div class="col-12 col-md-2 d-flex gap-2">
+                <button type="submit" class="btn btn-employee btn-employee-primary flex-grow-1">Buscar</button>
+                <a href="{{ route('empleados.index') }}" class="btn btn-employee btn-employee-outline">Limpiar</a>
+            </div>
+        </form>
 
         <div class="employee-table-wrap table-responsive">
             <table class="employee-table table table-hover align-middle text-center">
@@ -74,5 +89,8 @@
                 </tbody>
             </table>
         </div>
+                    <div class="d-flex flex-wrap gap-2 justify-content-center mt-4">
+                <a class="btn btn-employee btn-employee-primary" href="{{ route('dashboard') }}">Ir al inicio</a>
+            </div>
     </main>
 @endsection

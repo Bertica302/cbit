@@ -62,17 +62,27 @@ Route::get('/recuperar/codigo/{id}', [RecuperacionController::class, "mostrarCod
 
 // Rutas de inventario
 Route::get('/inventario/search', [InventarioController::class, 'search'])->name('inventario.search');
-Route::resource('/inventario', InventarioController::class);
+Route::get('/inventario', [InventarioController::class, 'index'])->name('inventario.index');
+Route::get('/inventario/create', [InventarioController::class, 'create'])->name('inventario.create');
+
+Route::middleware('rol_id:1,2')->group(function () {
+    Route::post('/inventario', [InventarioController::class, 'store'])->name('inventario.store');
+    Route::get('/inventario/{item}/edit', [InventarioController::class, 'edit'])->name('inventario.edit');
+    Route::put('/inventario/{item}', [InventarioController::class, 'update'])->name('inventario.update');
+    Route::delete('/inventario/{item}', [InventarioController::class, 'destroy'])->name('inventario.destroy');
+});
 
 
 // Rutas de empleados
 
 
 // Mostrar todos los empleados
-Route::get('/empleados', [EmpleadosController::class, 'index'])->name('empleados.index')->middleware('rol_id: 1, 2'); // Solo accesible para usuarios con rol_id 2
+Route::middleware('rol_id:1,2')->group(function () {
+Route::get('/empleados', [EmpleadosController::class, 'index'])->name('empleados.index'); // Solo accesible para usuarios con rol_id 2
+
 //mostrar perfil de empleado
 Route::get('/empleados/{empleado}', [EmpleadosController::class, 'show'])->name('empleados.show');
-
 Route::get('/empleados/{empleado}/edit', [EmpleadosController::class, 'edit'])->name('empleados.edit');
 Route::put('/empleados/{empleado}', [EmpleadosController::class, 'update'])->name('empleados.update');
 Route::delete('/empleados/{empleado}', [EmpleadosController::class, 'destroy'])->name('empleados.destroy');
+});

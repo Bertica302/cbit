@@ -104,6 +104,8 @@
 </div>
 <div class="text-center mt-3">
   <a class="btn btn-success" href="{{ route('inventario.create') }}">Agregar inventario</a>
+  <a class="btn btn-employee btn-employee-primary" href="{{ route('dashboard') }}">Ir al inicio</a>
+            
 </div>
 </div>
 

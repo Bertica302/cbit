@@ -38,7 +38,7 @@ $usuario = usuario_sistema::where('nombreUsuario', $request->nombreUsuario)->fir
     session([
         'id' => $usuario->id,
         'nombreUsuario' => $usuario->nombreUsuario,
-        'rol_id' => $empleado->id_rol,
+        'rol_id' => $empleado->rol_id,
     ]);
 
     return redirect()->route('dashboard');  
