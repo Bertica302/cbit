@@ -69,7 +69,7 @@ Route::resource('/inventario', InventarioController::class);
 
 
 // Mostrar todos los empleados
-Route::get('/empleados', [EmpleadosController::class, 'index'])->name('empleados.index')->middleware('rol_id:2'); // Solo accesible para usuarios con rol_id 2
+Route::get('/empleados', [EmpleadosController::class, 'index'])->name('empleados.index')->middleware('rol_id: 1, 2'); // Solo accesible para usuarios con rol_id 2
 //mostrar perfil de empleado
 Route::get('/empleados/{empleado}', [EmpleadosController::class, 'show'])->name('empleados.show');
 
