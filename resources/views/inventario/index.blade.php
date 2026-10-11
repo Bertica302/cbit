@@ -84,9 +84,9 @@
         <td>{{$inventario->modelo}}</td>
         <td>{{$inventario->serial}}</td>
         <td>{{$inventario->created_at}}</td>
-        <td> <a class="btn btn-primary btn-sm" href="{{url('/inventario/'.$inventario->id.'/edit') }}">Editar</a>
+        <td> <a class="btn btn-primary btn-sm" href="{{ route('inventario.edit', $inventario->id) }}">Editar</a>
            
-            <form method="post" action="{{url('/inventario/'.$inventario->id)}}">
+            <form method="post" action="{{ route('inventario.destroy', $inventario->id)}}">
                 @csrf
                 @method('DELETE')
         <button  type="submit" class="btn btn-danger btn-sm" onclick="return confirm('segurisimo?');">Borrar</button>

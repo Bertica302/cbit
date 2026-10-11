@@ -67,9 +67,9 @@ Route::get('/inventario/create', [InventarioController::class, 'create'])->name(
 
 Route::middleware('rol_id:1,2')->group(function () {
     Route::post('/inventario', [InventarioController::class, 'store'])->name('inventario.store');
-    Route::get('/inventario/{item}/edit', [InventarioController::class, 'edit'])->name('inventario.edit');
-    Route::put('/inventario/{item}', [InventarioController::class, 'update'])->name('inventario.update');
-    Route::delete('/inventario/{item}', [InventarioController::class, 'destroy'])->name('inventario.destroy');
+    Route::get('/inventario/{inventario}/edit', [InventarioController::class, 'edit'])->name('inventario.edit');
+    Route::get('/inventario/{inventario}', [InventarioController::class, 'update'])->name('inventario.update');
+    Route::delete('/inventario/{inventario}', [InventarioController::class, 'destroy'])->name('inventario.destroy');
 });
 
 
