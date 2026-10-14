@@ -49,7 +49,7 @@
                        <br class="my-4">
 
                                         <div class="d-flex justify-content-center">
-                        <a href="" class="btn btn-primary btn-lg px-4 shadow-sm">
+                        <a href="{{ url('/_c_b_i_t') }}" class="btn btn-primary btn-lg px-4 shadow-sm">
                             <i class="bi bi-box-seam me-2"></i>
                             Otros Cbits
                         </a>

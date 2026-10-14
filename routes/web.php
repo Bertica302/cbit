@@ -8,6 +8,7 @@ use App\Http\Controllers\RecuperacionController;
 use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\EmpleadosController;
+use App\Http\Controllers\CBITController;
 use App\Http\Middleware\RolMiddleware;
 
 Route::get('/', function () {
@@ -68,7 +69,7 @@ Route::get('/inventario/create', [InventarioController::class, 'create'])->name(
 Route::middleware('rol_id:1,2')->group(function () {
     Route::post('/inventario', [InventarioController::class, 'store'])->name('inventario.store');
     Route::get('/inventario/{inventario}/edit', [InventarioController::class, 'edit'])->name('inventario.edit');
-    Route::get('/inventario/{inventario}', [InventarioController::class, 'update'])->name('inventario.update');
+    Route::put('/inventario/{inventario}', [InventarioController::class, 'update'])->name('inventario.update');
     Route::delete('/inventario/{inventario}', [InventarioController::class, 'destroy'])->name('inventario.destroy');
 });
 
@@ -86,3 +87,8 @@ Route::get('/empleados/{empleado}/edit', [EmpleadosController::class, 'edit'])->
 Route::put('/empleados/{empleado}', [EmpleadosController::class, 'update'])->name('empleados.update');
 Route::delete('/empleados/{empleado}', [EmpleadosController::class, 'destroy'])->name('empleados.destroy');
 });
+
+//rutas para mostrar sucursales de CBIT
+
+route::get('/_c_b_i_t', [CBITController::class, 'index'])->name('cbit.index');
+route::get('/_c_b_i_t/{cbit}', [CBITController::class, 'show'])->name('cbit.show');
