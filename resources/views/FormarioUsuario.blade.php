@@ -36,6 +36,21 @@
     <input type="text" name="respuesta1" >  
 </br>
 </br>
+<<<<<<< HEAD
+=======
+<label>Seleccione una segunda pregunta de seguridad</label>
+<select name="pregunta2">
+    <option value="Cancion Favorita">Cancion Favorita</option>
+    <option value="Bebida Favorita">Bebida Favorita</option>
+    <option value="Segundo Nombre de su madre">Segundo Nombre de su madre</option>
+</select>
+</br>
+</br>
+<label>Respuesta</label><br>
+    <input type="text" name="respuesta2"> 
+</br>
+</br>
+>>>>>>> rama_de_Talleres
 <label>Seleccione una tercera pregunta de Seguridad</label>
     <select name="pregunta3">
         <option value="Nombre de su mascota">Nombre de su mascota</option>

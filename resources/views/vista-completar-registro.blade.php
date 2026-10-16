@@ -8,7 +8,11 @@
 
 @if(session('error'))
 <div style="color:red; margin-bottom:10px;">
+<<<<<<< HEAD
     {{session('error')}} 
+=======
+    {{session('error')}}
+>>>>>>> rama_de_Talleres
 </div>
 @endif
 

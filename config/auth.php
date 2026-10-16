@@ -58,11 +58,19 @@ return [
     | Supported: "database", "eloquent"
     |
     */
+<<<<<<< HEAD
 // APP\models\usuario_sistema::class en lugar de App\Models\User::class para que el login funcione con la tabla usuario_sistema en lugar de la tabla users.
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\usuario_sistema::class),
+=======
+
+    'providers' => [
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\User::class),
+>>>>>>> rama_de_Talleres
         ],
 
         // 'users' => [

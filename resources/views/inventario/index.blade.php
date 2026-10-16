@@ -2,6 +2,7 @@
 
 
 @section('content')
+<<<<<<< HEAD
 <div class="container py-4">
 @if (session('success'))
 <p class="text-success text-center">{{ session('success')}}</p>
@@ -57,6 +58,22 @@
 </form>
 <div class="table-responsive">
 <table class="table table-striped table-bordered text-center align-middle" id="TablaIndex">
+=======
+@if (session('success'))
+<p style="color:green;">{{ session('success')}}</p>
+@endif
+
+<form class="row g-3" method="GET" action="{{ route('inventario.search') }}">
+  <div class="col-auto">
+    <label for="staticSearch" class="visually-hidden">Buscar</label>
+    <input type="search" name="search" class="form-control" id="staticSearch" value="{{request('search')}}">
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary mb-3">Buscar</button>
+  </div>
+</form>
+<table class="table table-striped" id="TablaIndex" >
+>>>>>>> rama_de_Talleres
 <thead class="thead-light">
 <tr>
     <th>#</th>
@@ -68,14 +85,21 @@
     <th>Modelo</th>
     <Th>Serial</Th>
     <th>Fecha de registro</th>
+<<<<<<< HEAD
     <th>Acciones</th>
+=======
+>>>>>>> rama_de_Talleres
 </tr>
 </thead>
 
 <tbody>
     @foreach($inventarios as $inventario)
     <tr>
+<<<<<<< HEAD
         <td>{{ $inventarios->firstItem() + $loop->index }}</td>
+=======
+        <td>{{$loop->iteration}}</td>
+>>>>>>> rama_de_Talleres
         <td>{{$inventario->usuario->nombreUsuario ?? 'sin nombre de usuario'}}</td>
         <td>{{$inventario->nombre}}</td>
         <td>{{$inventario->tipo}}</td>
@@ -84,9 +108,15 @@
         <td>{{$inventario->modelo}}</td>
         <td>{{$inventario->serial}}</td>
         <td>{{$inventario->created_at}}</td>
+<<<<<<< HEAD
         <td> <a class="btn btn-primary btn-sm" href="{{ route('inventario.edit', $inventario->id) }}">Editar</a>
            
             <form method="post" action="{{ route('inventario.destroy', $inventario->id)}}">
+=======
+        <td> <a class="btn btn-primary btn-sm" href="{{url('/inventario/'.$inventario->id.'/edit') }}">Editar</a>
+           
+            <form method="post" action="{{url('/inventario/'.$inventario->id)}}">
+>>>>>>> rama_de_Talleres
                 @csrf
                 @method('DELETE')
         <button  type="submit" class="btn btn-danger btn-sm" onclick="return confirm('segurisimo?');">Borrar</button>
@@ -98,6 +128,7 @@
 </tbody>
 
 </table>
+<<<<<<< HEAD
 </div>
 <div class="d-flex justify-content-center mt-3">
   {{ $inventarios->links('pagination::bootstrap-5') }}
@@ -108,5 +139,8 @@
             
 </div>
 </div>
+=======
+ <a class="btn btn-success" type="button" href="{{route('inventario.create')}}" method="GET">picame</a>
+>>>>>>> rama_de_Talleres
 
 @endsection

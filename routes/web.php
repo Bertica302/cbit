@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\inicioController;
+<<<<<<< HEAD
 use App\Http\Controllers\registroController; 
 use App\Http\Controllers\usuarioController; 
 use App\Http\Controllers\RecuperacionController;
@@ -14,17 +15,38 @@ use App\Http\Middleware\RolMiddleware;
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
+=======
+use App\Http\Controllers\registroController;
+use App\Http\Controllers\InventarioController; 
+use App\Http\Controllers\usuarioController; 
+
+//use App\http\Controllers\ubicacionController;  
+
+
+Route::get('/', function () {
+    return view('welcome');
+});
+>>>>>>> rama_de_Talleres
 
 Route::get('/iniciosesion', [inicioController::class, "showLogin"])->name("iniciosesion");
 Route::post('/iniciosesion', [inicioController::class, "login"])->name("iniciosesion.post"); 
 
 Route::get('dashboard', function () {
+<<<<<<< HEAD
 if(!session()->has ('id')) {
     return redirect('/iniciosesion');  
 } 
 
 return view('dashboard');
 })->name('dashboard');
+=======
+ if(!session()->has ('id')) {
+    return redirect('/iniciosesion');  
+ } 
+
+ return view('dashboard');
+ })->name('dashboard');
+>>>>>>> rama_de_Talleres
 
 
 Route::post('/logout', [inicioController::class, 'logout'])->name('logout'); 
@@ -34,15 +56,21 @@ Route::post('/logout', [inicioController::class, 'logout'])->name('logout');
 // Retrieved 2026-08-06, License - CC BY-SA 4.0
 //   BIEN: Este formato sí vincula el 'use' de arriba
 
+<<<<<<< HEAD
 //rutas de registro de administrador
 Route::get('/install', [registroController::class, "PrimerRegistro"])->name("PrimerRegistro");      
 Route::post('/store', [registroController::class, "storeAdmin"])->name("RegistroAdministrador");         
 //rutas de registro de empleado
+=======
+
+
+>>>>>>> rama_de_Talleres
 Route::get('/registro/buscar', [registroController::class, "buscarCedulaForm"])->name("busqueda"); 
 Route::post('/registro/buscar', [registroController::class, "buscarCedula"])->name("search"); 
 Route::get('/registro/completar/{empleado}', [registroController::class, "completarForm"])->name("completar");  
 Route::post('/registro/completar/{empleado}', [registroController::class, "completarGuardar"])->name("empleadoActualizar"); 
 Route::get('/usuario/registro/{empleado}', [usuarioController::class, "UserRegistro"])->name("usuario-registro");
+<<<<<<< HEAD
 
 //rutas de Registro de usuario y recuperación de contraseña
 Route::post('/usuario/registro/{empleado}', [usuarioController::class, "storeUsuario"])->name("usuario-store");
@@ -92,3 +120,10 @@ Route::delete('/empleados/{empleado}', [EmpleadosController::class, 'destroy'])-
 
 route::get('/_c_b_i_t', [CBITController::class, 'index'])->name('cbit.index');
 route::get('/_c_b_i_t/{cbit}', [CBITController::class, 'show'])->name('cbit.show');
+=======
+Route::post('/usuario/registro/{empleado}', [usuarioController::class, "storeUsuario"])->name("usuario-store");  
+
+// Rutas de inventario
+Route::get('/inventario/search', [InventarioController::class, 'search'])->name('inventario.search');
+Route::resource('/inventario', InventarioController::class);
+>>>>>>> rama_de_Talleres

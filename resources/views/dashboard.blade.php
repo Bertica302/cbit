@@ -1,5 +1,6 @@
 @extends('layouts2.app')
 
+<<<<<<< HEAD
 @section('content')
 <div class="container py-5">
     <div class="row justify-content-center">
@@ -90,4 +91,17 @@
         </div>
     </div>
 </div>
+=======
+@section('content') 
+
+<div class="max-w-4xl mx-auto px-4">
+      
+    <head>
+    <h1>Bienvenido, {{session('nombreUsuario')}}</h1>  
+
+    </head>
+
+
+    <a href="{{url('/inventario')}}">Control de inventario</a>
+>>>>>>> rama_de_Talleres
 @endsection

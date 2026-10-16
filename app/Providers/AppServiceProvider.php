@@ -1,7 +1,11 @@
 <?php
 
 namespace App\Providers;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Gate;
+=======
+
+>>>>>>> rama_de_Talleres
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+<<<<<<< HEAD
         Gate::define('access-admin', function ($user) {
             return $user->rol_id === 1; 
             });
@@ -29,4 +34,8 @@ class AppServiceProvider extends ServiceProvider
     }
 
 
+=======
+        //
+    }
+>>>>>>> rama_de_Talleres
 }

@@ -9,6 +9,7 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+<<<<<<< HEAD
 
 }
 
@@ -133,3 +134,9 @@
 		.shared-profile-page .profile-details { grid-template-columns: 1fr; }
 		.shared-profile-page .profile-title { font-size: 1.4rem; }
 	}
+=======
+}
+
+
+
+>>>>>>> rama_de_Talleres
