@@ -15,10 +15,6 @@ class rol extends Model
 
     public function empleado(): HasMany 
     {
-<<<<<<< HEAD
         return $this->hasMany(empleado::class, 'rol_id');   
-=======
-        return $this->hasMany(empleado::class);   
->>>>>>> rama_de_Talleres
 }
 }
