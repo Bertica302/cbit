@@ -12,6 +12,10 @@ class empleado extends Model
     protected $table = 'empleado'; 
     protected $fillable=['nombres', 'apellidos', 'cedula', 'sexo', 'fec_nac', 'correo_electronico', 'rol_id', '_c_b_i_t_id', 'parroquia_id', 'direccion'];  
     
+        const ROL_ADMIN = 1;
+        const ROL_EMPLEADO = 2;
+
+
     public function usuario_sistema(){
         return $this->hasOne(usuario_sistema::class, 'empleado_id', 'id'); 
     }
@@ -28,8 +32,13 @@ class empleado extends Model
         return $this->belongsTo(parroquia::class);   
         }     
 
-        
-
+    public function isadmin(){
+        return $this->rol_id === self:: ROL_ADMIN;
+    }
+    
+    public function isempleado(){
+        return $this->rol_id === self:: ROL_EMPLEADO;
+    }
 
 } 
 

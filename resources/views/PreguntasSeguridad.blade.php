@@ -5,9 +5,11 @@
 <div class="container mt-5">
     <h3 class="mb-4 text-center">Verificación de Preguntas de Seguridad</h3>
 
-    @if(session('error'))
+    @if ($errors->any())
 <div style="color:red; margin-bottom:10px;">
-    {{session('error')}} 
+    @foreach ($errors->all() as $error)
+        <p>{{ $error }}</p>
+    @endforeach
 </div>
 @endif
     <form action="{{route('validar.usuario', $usuario->id)}}" method="POST"> 
@@ -27,7 +29,7 @@
     </br>
 </br>
 
-<button type="submit" class="btn btn.primary" w-100>Verificar Resuestas</button>
+<button type="submit" class="btn btn-primary" w-100>Verificar Respuestas</button>
 
     </form> 
 </div>

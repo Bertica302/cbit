@@ -21,10 +21,14 @@
                     </p>
 
                     <div class="d-flex justify-content-center">
+                        @can('access-inventory')
                         <a href="{{ url('/inventario') }}" class="btn btn-primary btn-lg px-4 shadow-sm">
                             <i class="bi bi-box-seam me-2"></i>
                             Control de inventario
                         </a>
+                        @else  
+                        <span> no tienes permisos para ver el inventario</span>
+                        @endcan
                     </div>
 
                     <br class="my-4">

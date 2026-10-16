@@ -78,7 +78,7 @@ Route::middleware('rol_id:1,2')->group(function () {
 
 
 // Mostrar todos los empleados
-Route::middleware('rol_id:1,2')->group(function () {
+Route::middleware(['auth', 'can:access-inventory'])->group(function () {
 Route::get('/empleados', [EmpleadosController::class, 'index'])->name('empleados.index'); // Solo accesible para usuarios con rol_id 2
 
 //mostrar perfil de empleado

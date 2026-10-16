@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request; 
 use  App\Models\usuario_sistema;
 use  Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class inicioController extends Controller
 {
@@ -20,28 +21,23 @@ class inicioController extends Controller
     
 $usuario = usuario_sistema::where('nombreUsuario', $request->nombreUsuario)->first(); 
 
-    if(!$usuario|| !Hash::check($request->clave, $usuario->clave)){  
-        return back()->withErrors(['nombreUsuario'=> 'credenciales incorrectas']);
-    }
+if (Auth::attempt([
+    'nombreUsuario' => $request->nombreUsuario,
+    'password' => $request->clave,
+])) {
+    $request->session()->regenerate();
 
-    session([
-        'id'=> $usuario->id,
-         'nombreUsuario'=>$usuario->nombreUsuario,
-         //'clave'=>$usuario->clave
-    ]);
-
-    $empleado = $usuario->empleado;
-    if (!$empleado){
-        return back()->withErrors(['nombreUsuario'=> 'No se encontró un empleado asociado a este usuario.']);
-    }
-
+    $usuario = Auth::user();
     session([
         'id' => $usuario->id,
         'nombreUsuario' => $usuario->nombreUsuario,
-        'rol_id' => $empleado->rol_id,
+        'rol_id' => $usuario->empleado?->rol_id,
     ]);
 
-    return redirect()->route('dashboard');  
+    return redirect()->route('dashboard');
+}
+
+return back()->withErrors(['nombreUsuario' => 'Credenciales incorrectas']);
 }
 
 public function logout(Request $request)

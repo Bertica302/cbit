@@ -43,13 +43,68 @@ class EmpleadosController extends Controller
         $empleados = $query->get();
         $cbits = _c_b_i_t::query()->orderBy('nombre')->get(['id', 'nombre']);
 
-        return view('empleados.index', compact('empleados', 'cbits'));
+       
+ return view('shared.index', [
+            'modelName' => 'empleados',
+            'tittle' => 'Directorio de Empleados',
+            'subtitle' => 'Listado general del personal registrado.',
+            'items' => $empleados,
+
+            // definir las columnas de la tabla
+            'columns' => [
+                ['label' => 'Nombre', 'field' => 'nombres'],
+                ['label' => 'Cédula', 'field' => 'cedula'],
+                ['label' => 'Correo electrónico', 'field' => 'correo_electronico'],
+                ['label' => 'Sucursal', 'field' => '_c_b_i_t.nombre'],
+            ],
+
+            'extraData' => [
+                'cbits' => $cbits,
+            ],
+
+ ]);
     }
 
     // metodo show para mostrar el perfil de un empleado
     public function show(Empleado $empleado)
     {
-        return view('empleados.show', compact('empleado'));
+        $empleado->load('_c_b_i_t');
 
+        return view('shared.show', [
+            'modelName' => 'empleados',
+            'eyebrow' => 'Ficha de personal',
+            'recordTitle' => trim($empleado->nombres.' '.$empleado->apellidos),
+            'subtitle' => 'Perfil del empleado',
+            'item' => $empleado,
+            'fields' => [
+                ['label' => 'Cédula', 'field' => 'cedula'],
+                ['label' => 'Correo electrónico', 'field' => 'correo_electronico', 'empty' => 'Sin correo registrado'],
+                ['label' => 'Fecha de nacimiento', 'field' => 'fec_nac', 'empty' => 'Sin fecha registrada'],
+                ['label' => 'Dirección', 'field' => 'direccion', 'empty' => 'Sin dirección registrada'],
+                ['label' => 'Sucursal asignada', 'field' => '_c_b_i_t.nombre', 'empty' => 'Sin sucursal asignada'],
+            ],
+        ]);
     }
+
+public function edit (Empleado $empleado)
+    {
+        $cbits = _c_b_i_t::query()->orderBy('nombre')->get(['id', 'nombre']);
+
+        return view('shared.edit', [
+            'modelName' => 'empleados',
+            'recordTitle' => trim($empleado->nombres.' '.$empleado->apellidos),
+            'item' => $empleado,
+            'fields' => [
+                ['name' => 'nombres', 'label' => 'Nombres', 'type' => 'text'],
+                ['name' => 'apellidos', 'label' => 'Apellidos', 'type' => 'text'],
+                ['name' => 'cedula', 'label' => 'Cédula', 'type' => 'text'],
+                ['name' => '_c_b_i_t_id', 'label' => 'Sucursal asignada', 'type' => 'select', 'options' => $cbits->pluck('nombre', 'id')],
+                ['name' => 'correo_electronico', 'label' => 'Correo electrónico', 'type' => 'email'],
+                ['name' => 'fec_nac', 'label' => 'Fecha de nacimiento', 'type' => 'date'],
+                ['name' => 'direccion', 'label' => 'Dirección', 'type' => 'text'],
+            ],
+        ]);
+    }
+    
+
 }

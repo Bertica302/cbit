@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 use App\Models\empleado;
-
+use App\Models\usuario_sistema;
 use Illuminate\Http\Request;
 
 class fundabitController extends Controller
 {
     public function PrimerRegistro(){
 
-    if (empleado::where('rol_id', 1)->exists()){ 
+    if (usuario_sistema::rol('Admin')->exists()){ 
 
     abort(403, 'El registro inicial ya fue realizado.'); 
     }
@@ -18,7 +18,7 @@ class fundabitController extends Controller
 
     public function storeAdmin(Request $request){
 
-    if (empleado::where('rol_id', 1)->exists()){   
+    if (usuario_sistema::rol('Admin')->exists()){   
 
     abort(403, 'El registro inicial ya fue realizado.'); 
     }
