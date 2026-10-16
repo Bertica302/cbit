@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('cedula');
             $table->string('Sexo');
             $table->date('fec_nac');
-            $table->string('correo_electronico');        
+            $table->string('correo_electronico'); 
+                   
             $table->timestamps();
         });
     }

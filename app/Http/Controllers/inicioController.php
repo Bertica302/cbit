@@ -30,6 +30,17 @@ $usuario = usuario_sistema::where('nombreUsuario', $request->nombreUsuario)->fir
          //'clave'=>$usuario->clave
     ]);
 
+    $empleado = $usuario->empleado;
+    if (!$empleado){
+        return back()->withErrors(['nombreUsuario'=> 'No se encontró un empleado asociado a este usuario.']);
+    }
+
+    session([
+        'id' => $usuario->id,
+        'nombreUsuario' => $usuario->nombreUsuario,
+        'rol_id' => $empleado->id_rol,
+    ]);
+
     return redirect()->route('dashboard');  
 }
 

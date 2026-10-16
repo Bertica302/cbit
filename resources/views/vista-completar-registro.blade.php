@@ -8,7 +8,7 @@
 
 @if(session('error'))
 <div style="color:red; margin-bottom:10px;">
-    {{session('error')}}
+    {{session('error')}} 
 </div>
 @endif
 
