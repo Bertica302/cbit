@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmpleadoController;
 use Illuminate\Support\Facades\Route;
 use App\http\Controllers\inicioController;
 use App\http\Controllers\registroController; 
@@ -7,7 +8,6 @@ use App\http\Controllers\usuarioController;
 use App\http\Controllers\RecuperacionController;  
 use App\http\Controllers\InscripcionController; 
 use App\http\Middleware\RolMiddleware;   
-//use App\http\Controllers\ubicacionController;  
 
 
 Route::get('/', function () {
@@ -15,20 +15,7 @@ Route::get('/', function () {
 });
 
 Route::get('/iniciosesion', [inicioController::class, "showLogin"])->name("iniciosesion");
-Route::post('/iniciosesion', [inicioController::class, "login"])->name("iniciosesion.post"); 
-
-//Route::get('dashboard', function () {
-//if(!session()->has ('id')) {
-    //return redirect('/iniciosesion');  
-//} 
-//})->name('dashboard');
-
-//Route::get('/register', function (){
-    //if (!empleado::where('rol_id', 2)->exists()){
-        //return redirect('/install');
-    //}
-    //return redirect('registro/buscar');  
-     //});     
+Route::post('/iniciosesion', [inicioController::class, "login"])->name("iniciosesion.post");  
 
 Route::get('/dashboard/empleado', function () {
     return view('dashboard');   
@@ -39,29 +26,14 @@ Route::get('/dashboard/admin', function () {
 })->name('Admin'); 
 
 
-    //Route::get('/empleado/dashboard', function(){
-       //if(!session()->has('id')) return redirect('/iniciosesion');
-        //return view('dashboard'); 
-    //})->name('dashboard');    
-
-
-//Route::get('/admin/dashboard', function(){
-    //if(!session()->has('id')) return redirect('/iniciosesion'); 
-    //return view('menus.menuAdmin'); 
-//})->name('administradores');  
-
-//Route::middleware('rol_id:1')->get('/empleado/inicio', function(){
-    //return view('dashboard'); 
-//})->name('dashboard'); 
-
-//Route::middleware('rol_id:2')->get('/admin/inicio', function(){
-    //return view('menus.menuAdmin');   
-//})->name('Admin');  
-
 Route::post('/logout', [inicioController::class, 'logout'])->name('logout'); 
 
 Route::get('/install', [registroController::class, "PrimerRegistro"])->name("PrimerRegistro");      
-Route::post('/store', [registroController::class, "storeAdmin"])->name("RegistroAdministrador");         
+Route::post('/store', [registroController::class, "storeAdmin"])->name("RegistroAdministrador");   
+
+Route::get('/admin/usuarios', [EmpleadoController::class, "crear"])->name("preregistro");  
+
+Route::post('/admin/usuarios', [EmpleadoController::class, "guardarEmpleado"])->name("RegistroHecho");   
 
 Route::get('/registro/buscar', [registroController::class, "buscarCedulaForm"])->name("busqueda"); 
 Route::post('/registro/buscar', [registroController::class, "buscarCedula"])->name("search"); 
