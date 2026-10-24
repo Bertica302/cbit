@@ -13,6 +13,9 @@
 				<p class="employee-subtitle mb-0">Listado de centros y sus parroquias.</p>
 			</div>
 			<div class="employee-count">{{ $cbits->count() }} {{ $cbits->count() === 1 ? 'centro' : 'centros' }}</div>
+			@can ('access-admin')
+			<a class="btn btn-employee btn-employee-primary" href="{{ route('cbit.create') }}">Registrar nuevo centro</a>
+			@endcan
 		</header>
 
 		<div class="employee-table-wrap table-responsive">
@@ -36,6 +39,15 @@
 							<td>
 								<a class="btn btn-sm btn-employee btn-employee-outline" href="{{ route('cbit.show', $cbit->id) }}">Ver centro</a>
 							</td>
+							        <td> <a class="btn btn-primary btn-sm" href="{{route('cbit.edit', $cbit->id) }}"><i class="bi bi-pencil"></i></a>
+        
+           
+            <form method="post" action="{{route('cbit.destroy', $cbit->id)}}">
+                @csrf
+                @method('DELETE')
+        <button  type="submit" class="btn btn-danger btn-sm" onclick="return confirm('segurisimo?');"><i class="bi bi-trash"></i></button>
+             </form>
+    </td>
 						</tr>
 					@empty
 						<tr>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuditoriaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\inicioController;
 use App\Http\Controllers\registroController; 
@@ -91,4 +92,14 @@ Route::delete('/empleados/{empleado}', [EmpleadosController::class, 'destroy'])-
 //rutas para mostrar sucursales de CBIT
 
 route::get('/_c_b_i_t', [CBITController::class, 'index'])->name('cbit.index');
+route::post('/_c_b_i_t', [CBITController::class, 'store'])->name('cbit.store');
+route::get('/_c_b_i_t/create', [CBITController::class, 'create'])->name('cbit.create');
 route::get('/_c_b_i_t/{cbit}', [CBITController::class, 'show'])->name('cbit.show');
+route::get('/_c_b_i_t/{cbit}/edit', [CBITController::class, 'edit'])->name('cbit.edit');
+route::put('/_c_b_i_t/{cbit}', [CBITController::class, 'update'])->name('cbit.update');
+route::delete('/_c_b_i_t/{cbit}', [CBITController::class, 'destroy'])->name('cbit.destroy');
+
+
+
+route::get('/Auditorias', [AuditoriaController::class, 'index'])->name('auditoria.index');
+route::get('/Auditorias/{auditoria}', [AuditoriaController::class, 'show'])->name('auditoria.show');

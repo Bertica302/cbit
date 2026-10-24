@@ -24,6 +24,9 @@ return new class extends Migration
              //->cascadeonDelete(); 
             $table->string('direccion');
             $table->timestamps();
+
+
+            $table->softDeletes();
         });
     }
 
@@ -33,5 +36,12 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('_c_b_i_t');
+       
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
+
+
+ 
 };

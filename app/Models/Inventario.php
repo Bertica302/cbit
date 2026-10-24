@@ -5,15 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Activitylog\Models\Activity;
 use Illuminate\Database\Eloquent\Builder;
+use App\Traits\LogsActivityConChanges;
 
 
 class Inventario extends Model
 {
-    use HasFactory, SoftDeletes, LogsActivity;
+    use HasFactory, SoftDeletes, LogsActivityConChanges;
 protected $fillable = [
         'nombre',
         'tipo',
@@ -21,8 +19,7 @@ protected $fillable = [
         'marca',
         'modelo',
         'serial',
-        'usuario_id',
-        'created_at',
+        'usuario_id'
     ];
 
 public Function usuario(){
@@ -32,23 +29,7 @@ return $this->belongsTo(usuario_sistema::class, 'usuario_id');
 
 }
 
-	public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-        ->logAll()
-        ->logOnlyDirty()
-        ->dontSubmitEmptyLogs()
-        ->useLogName('Inventario');
-    }
 
-    public function tapActivity(Activity $activity, string $eventName)
-    {
-        $usuarioId = session('id');
-        if ($usuarioId) {
-            $activity->causer_id = $usuarioId;
-            $activity->causer_type = \App\Models\usuario_sistema::class;
-        }
-    }
 
     public function scopeSearch(Builder $query, ?string $term): void
     {

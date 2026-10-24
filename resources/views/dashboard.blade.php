@@ -26,8 +26,6 @@
                             <i class="bi bi-box-seam me-2"></i>
                             Control de inventario
                         </a>
-                        @else  
-                        <span> no tienes permisos para ver el inventario</span>
                         @endcan
                     </div>
 
@@ -76,6 +74,17 @@
                             Actividades
                         </a>
                     </div>
+
+                    
+ <br class="my-4">
+
+                                        <div class="d-flex justify-content-center">
+                        <a href="{{ route('auditoria.index')}}" class="btn btn-primary btn-lg px-4 shadow-sm">
+                            <i class="bi bi-box-seam me-2"></i>
+                            Auditoria
+                        </a>
+                    </div>
+
 </br>
 <form action="{{ route('logout') }}" method="POST">
     @csrf
