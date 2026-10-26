@@ -63,11 +63,12 @@ Route::get('/recuperar/codigo/{id}', [RecuperacionController::class, "mostrarCod
 
 
 // Rutas de inventario
+Route::middleware('auth', 'can:access-inventory')->group(function () {
 Route::get('/inventario/search', [InventarioController::class, 'search'])->name('inventario.search');
 Route::get('/inventario', [InventarioController::class, 'index'])->name('inventario.index');
 Route::get('/inventario/create', [InventarioController::class, 'create'])->name('inventario.create');
 
-Route::middleware('rol_id:1,2')->group(function () {
+
     Route::post('/inventario', [InventarioController::class, 'store'])->name('inventario.store');
     Route::get('/inventario/{inventario}/edit', [InventarioController::class, 'edit'])->name('inventario.edit');
     Route::put('/inventario/{inventario}', [InventarioController::class, 'update'])->name('inventario.update');
@@ -80,7 +81,7 @@ Route::middleware('rol_id:1,2')->group(function () {
 
 // Mostrar todos los empleados
 Route::middleware(['auth', 'can:access-inventory'])->group(function () {
-Route::get('/empleados', [EmpleadosController::class, 'index'])->name('empleados.index'); // Solo accesible para usuarios con rol_id 2
+Route::get('/empleados', [EmpleadosController::class, 'index'])->name('empleados.index'); 
 
 //mostrar perfil de empleado
 Route::get('/empleados/{empleado}', [EmpleadosController::class, 'show'])->name('empleados.show');
@@ -100,6 +101,8 @@ route::put('/_c_b_i_t/{cbit}', [CBITController::class, 'update'])->name('cbit.up
 route::delete('/_c_b_i_t/{cbit}', [CBITController::class, 'destroy'])->name('cbit.destroy');
 
 
-
+Route::middleware(['auth', 'can:access-auditory'])->group(function(){
 route::get('/Auditorias', [AuditoriaController::class, 'index'])->name('auditoria.index');
-route::get('/Auditorias/{auditoria}', [AuditoriaController::class, 'show'])->name('auditoria.show');
+route::get('/Auditorias/{auditoria}', [AuditoriaController::class, 'show'])->name('auditorias.show');
+
+});

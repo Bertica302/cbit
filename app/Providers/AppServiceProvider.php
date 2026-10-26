@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
 
 
             Gate::define('access-manager', function ($user) {
-                return $user->empleado?->id_id === 2;
+                return $user->empleado?->rol_id === 2;
             });
 
             Gate::define ('access-secretariat', function ($user) {
@@ -38,7 +38,14 @@ class AppServiceProvider extends ServiceProvider
 
 
             Gate::define('access-inventory', function ($user){
-                return in_array($user->empleado?->rol_id, [1, 2, 3, 4]); // tanto admin como empleado tienen acceso al inventario 
+                return in_array($user->empleado?->rol_id, [1,2,3,4]); // tanto admin como empleado tienen acceso al inventario 
+            });
+
+
+            Gate::define('access-auditory', function ($user){
+            return in_array($user->empleado?->rol_id, [1,2]);
+
+
             });
     }
 

@@ -13,6 +13,7 @@ trait LogsActivityConChanges
     {
         return LogOptions::defaults()
             ->logAll()
+            ->logFillable()
             ->logOnlyDirty()
             ->useLogName($this->getTable());
     }

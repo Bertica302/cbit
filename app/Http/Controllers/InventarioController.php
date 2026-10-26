@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventario;
 use App\Models\usuario_sistema;
+use App\Models\empleado;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+
 
 class InventarioController extends Controller
 {
@@ -84,40 +86,60 @@ class InventarioController extends Controller
         ], [
             '*.required' => 'El campo :attribute es obligatorio.',
         ]);
-        
-    
 
-        $datos_validos['usuario_id'] = $request->session()->get('id');
+
+
+        $usuarioID = $request->session()->get('id');
+        $datos_validos['usuario_id'] = $usuarioID;
+
+
+        // añadido para poder encontrar el _c_b_i_t_id mediante la realcion entre usuario y empleado.
+
+        $usuario = usuario_sistema::find($usuarioID);
+
+        if ($usuario && $usuario->empleado_id) {
+
+            $empleado = Empleado::find($usuario->empleado_id);
+
+            if ($empleado) {
+
+                $datos_validos['_c_b_i_t_id'] = $empleado->_c_b_i_t_id;
+            } else {
+                return back()->withErrors(['error' => 'El empleado asociado a este usuario no existe en la base de datos.']);
+            }
+        } else {
+
+
+            return back()->withErrors(['error' => 'El uaurio actual no tiene un empleado asociado']);
+        }
         Inventario::create($datos_validos);
         return redirect()->route('inventario.index')->with('success', 'registro realizado exitosamente');
     }
 
-    public function edit(Inventario $inventario){
-        return view('inventario.edit',compact('inventario'));
+    public function edit(Inventario $inventario)
+    {
+        return view('inventario.edit', compact('inventario'));
     }
 
     public function update(Request $request, Inventario $inventario)
-        {
+    {
 
-        $datos_validos= $request->validate([
+        $datos_validos = $request->validate([
             'nombre' => 'required',
             'tipo' => 'required',
             'estado' => 'required|in:operativo,no operativo',
             'marca' => 'required',
             'modelo' => 'required',
             'serial' => 'required'
-        ], ['*.required'=> 'El campo :attribute es obligatorio.']);
+        ], ['*.required' => 'El campo :attribute es obligatorio.']);
         $datos_validos['usuario_id'] = $request->session()->get('id');
-        
-  
 
-       //actualizacion en la base de datos y retorno a la vista index
+
+
+        //actualizacion en la base de datos y retorno a la vista index
         $inventario->update($datos_validos);
         return redirect()->route('inventario.index')->with('success', 'cambios realizado exitosamente');
-
-
-
-        }
+    }
     //funcion destroy para borrar registros
     public function destroy(Inventario $inventario)
     {
@@ -129,11 +151,11 @@ class InventarioController extends Controller
 
     //filtro por nombre usando el Scopesearch en el modelo Inventario 
     public function search(Request $request)
- {
-         $query = Inventario::query()->with('usuario');
-         $this->applyFilters($query, $request);
-         $inventarios = $query->paginate(5)->withQueryString();
+    {
+        $query = Inventario::query()->with('usuario');
+        $this->applyFilters($query, $request);
+        $inventarios = $query->paginate(5)->withQueryString();
 
-    return view('inventario.index', compact('inventarios'));
- }
+        return view('inventario.index', compact('inventarios'));
+    }
 }
