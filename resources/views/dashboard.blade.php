@@ -17,5 +17,6 @@
     <a href="" class="btn-menu">Asistencia</a>
     <a href="" class="btn-menu">Otros CBIT</a>  
     <a href="" class="btn-menu">Ver perfil</a> 
+    <a href="{{route ('admin.preregistroEmpleado')}}" class="btn-menu">Registrar nuevo empleado</a>
 
 @endsection

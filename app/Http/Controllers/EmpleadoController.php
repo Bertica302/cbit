@@ -57,8 +57,14 @@ $request->validate([
     'apellidos'=>$request->apellidos,
     'cedula'=>$request->cedula, 
     'rol_id'=>$request->rol_id, 
-    '_c_b_i_t_id'=>$request->_c_b_i_t_id,         
+    '_c_b_i_t_id'=>$request->_c_b_i_t_id,     
+    
+    
+    
+
 ]); 
+
+return view('dashboard');
 
 
     }

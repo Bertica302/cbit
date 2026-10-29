@@ -54,6 +54,6 @@ Route::get('/recuperar/codigo/{id}', [RecuperacionController::class, "mostrarCod
  Route::get('/curso/inscribir', [InscripcionController::class, "VistaInscrip"])->name("Cursos");  
  
  
- 
+ Route::get('/PreregistroEmpleado', [EmpleadoController::class, "crear"])->name("admin.preregistroEmpleado");
 
 
