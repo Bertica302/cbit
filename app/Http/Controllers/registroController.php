@@ -14,7 +14,7 @@ class registroController extends Controller
 {
    public function buscarCedulaForm()
     {
-        return view('vista-completar-registro');
+        return view('vista-completar-registro'); 
     }
 
 
@@ -41,7 +41,7 @@ class registroController extends Controller
         $request->validate([
             'Sexo'=> 'required',  
             'fec_nac'=> 'required',     
-            'correo_electronico'=> 'required', 
+            'correo_electronico'=> 'required|unique:empleado',  
             'parroquia'=>'required', 
             'direccion'=>'required',  
         ]); 

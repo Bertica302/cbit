@@ -32,4 +32,9 @@ protected $table = 'usuario_sistema';
         return 'clave';
     }
 
+        public function images()
+        {
+            return $this->hasMany(imagenes::class); 
+        }
+
 }

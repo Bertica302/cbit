@@ -46,9 +46,9 @@
         <input type="mail" name="correo_electronico" required> 
     </div>
 </br></br>
-<label>Preguntas de Seguridadd</label>
+<label>Parroquia donde vive</label> 
 <select name="parroquia">
-<option value="">Seleccione la Parroquia donde vive</option>
+<option value="">Seleccione una paroquia</option>
 @foreach($parroquia as $parroquias)
 <option value="{{$parroquias->id}}">{{$parroquias->nombre_parroquia}}</option> 
 @endforeach

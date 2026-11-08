@@ -1,10 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuditoriaController;
+use App\Http\Controllers\EmpleadoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\inicioController;
 use App\Http\Controllers\registroController; 
-use App\Http\Controllers\usuarioController; 
+
 use App\Http\Controllers\RecuperacionController;
 use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\InventarioController;
@@ -12,14 +13,18 @@ use App\Http\Controllers\EmpleadosController;
 use App\Http\Controllers\CBITController;
 use App\Http\Middleware\RolMiddleware;
 use App\Http\Controllers\ReportesInventarioController;
-use App\Http\Controllers\mantenimientoController;
+use App\Http\Controllers\mantenimientoController; 
+use App\http\Controllers\usuarioController; 
+ use App\http\Controllers\imagenesController; 
+
+
 
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
 Route::get('/iniciosesion', [inicioController::class, "showLogin"])->name("iniciosesion");
-Route::post('/iniciosesion', [inicioController::class, "login"])->name("iniciosesion.post"); 
+Route::post('/iniciosesion', [inicioController::class, "login"])->name("iniciosesion.post");  
 
 Route::get('dashboard', function () {
 if(!session()->has ('id')) {
@@ -30,15 +35,20 @@ return view('dashboard');
 })->name('dashboard');
 
 
-Route::post('/logout', [inicioController::class, 'logout'])->name('logout'); 
+Route::post('/logout', [inicioController::class, 'logout'])->name('logout');
 
-// Source - https://stackoverflow.com/a/76770992
-// Posted by Alireza Karimpoor, modified by community. See post 'Timeline' for change history
-// Retrieved 2026-08-06, License - CC BY-SA 4.0
-//   BIEN: Este formato sí vincula el 'use' de arriba
+Route::get('/registro/buscar', [registroController::class, "buscarCedulaForm"])->name("busqueda");
+ Route::post('/registro/buscar', [registroController::class, "buscarCedula"])->name("search");  
 
-//rutas de registro de administrador
 Route::get('/install', [registroController::class, "PrimerRegistro"])->name("PrimerRegistro");      
+Route::post('/store', [registroController::class, "storeAdmin"])->name("RegistroAdministrador");   
+
+Route::get('/admin/usuarios', [EmpleadoController::class, "crear"])->name("preregistro");  
+
+Route::post('/admin/usuarios', [EmpleadoController::class, "guardarEmpleado"])->name("RegistroHecho");   
+
+
+ 
 Route::post('/store', [registroController::class, "storeAdmin"])->name("RegistroAdministrador");         
 //rutas de registro de empleado
 Route::get('/registro/buscar', [registroController::class, "buscarCedulaForm"])->name("busqueda"); 
@@ -121,3 +131,19 @@ route::get('/Auditorias/{auditoria}', [AuditoriaController::class, 'show'])->nam
 
 route::get('reportes/RINO', [ReportesInventarioController::class, 'EquiposNoOperativos'])->name('reportes.RINO');
 route::get('reportes/RIO', [ReportesInventarioController::class, 'EquiposOperativos'])->name('reportes.RIO');
+ Route::get('/curso/inscribir', [InscripcionController::class, "VistaInscrip"])->name("Cursos");
+
+ Route::resource('images', imagenesController::class);  
+
+ Route::get('/images/asistencia', [imagenesController::class, "ImagesCreate"])->name("SubirAsistencia");  
+ 
+ Route::post('/images/asistencia', [imagenesController::class, "storeImagen"])->name("registrar.asistencia");
+
+ Route::get('/images/asistencia', [imagenesController::class, "adminIndex"])->name("planillasdeAsistencia"); 
+ 
+ 
+
+ 
+ 
+
+
