@@ -11,40 +11,49 @@ class EmpleadosController extends Controller
 {
     public function index(Request $request)
     {
-        $filters = $request->validate([
+
+
+$query = Empleado::query()->with('_c_b_i_t');
+
+$this ->applyFilters($query, $request);
+
+$datos['empleados'] = $query -> paginate(5)->withQueryString();
+return view('empleados.index', $datos);
+
+ }
+
+        private function applyfilters(Builder $query, Request $request): Builder
+{
+      $filters = $request->validate([
             'search' => 'nullable|string|max:255',
-            'cbit_id' => 'nullable|integer|exists:_c_b_i_t,id',
             'cedula' => 'nullable|string|max:255',
+            'fecha' => 'nullable|date_format:Y-m-d',
         ]);
 
-        $query = Empleado::query()->with('_c_b_i_t');
-
-        if (! empty($filters['search'])) {
-            $terms = preg_split('/\s+/', trim($filters['search']), -1, PREG_SPLIT_NO_EMPTY);
-
-            foreach ($terms as $term) {
-                $query->where(function (Builder $searchQuery) use ($term) {
-                    $searchQuery
-                        ->where('nombres', 'like', '%'.$term.'%')
-                        ->orWhere('apellidos', 'like', '%'.$term.'%')
-                        ->orWhere('correo_electronico', 'like', '%'.$term.'%');
+    $query->when($filters['search'] ?? null, function ($q, $search) {
+        $q->where(function ($subQuery) use ($search) {
+            $subQuery->where('nombres', 'like', '%' . $search . '%')
+            ->orWhere('cedula', 'like', '%' . $search . '%')
+                ->orWhere('apellidos', 'like', '%' . $search . '%')
+                ->orWhere('correo_electronico', 'like', '%' . $search . '%')
+                ->orWhereHas('_c_b_i_t', function (Builder $cbitQuery) use ($search) {
+                    $cbitQuery->where('nombre', 'like', '%' . $search . '%');
                 });
-            }
-        }
+        });
+    });
 
-        if (! empty($filters['cbit_id'])) {
-            $query->where('_c_b_i_t_id', $filters['cbit_id']);
-        }
 
-        if (! empty($filters['cedula'])) {
-            $query->where('cedula', 'like', '%'.trim($filters['cedula']).'%');
-        }
 
-        $empleados = $query->get();
-        $cbits = _c_b_i_t::query()->orderBy('nombre')->get(['id', 'nombre']);
 
-        return view('empleados.index', compact('empleados', 'cbits'));
+
+    $query->when($filters['fecha'] ?? null, function ($q, $fecha) {
+        $q->whereDate('created_at', $fecha);
+    });
+
+
+        return $query;
     }
+
 
     // metodo show para mostrar el perfil de un empleado
     public function show(Empleado $empleado)

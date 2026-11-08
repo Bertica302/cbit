@@ -11,6 +11,8 @@ use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\EmpleadosController;
 use App\Http\Controllers\CBITController;
 use App\Http\Middleware\RolMiddleware;
+use App\Http\Controllers\ReportesInventarioController;
+use App\Http\Controllers\mantenimientoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -63,10 +65,16 @@ Route::get('/recuperar/codigo/{id}', [RecuperacionController::class, "mostrarCod
 
 
 // Rutas de inventario
-Route::middleware('auth', 'can:access-inventory')->group(function () {
+Route::middleware(['auth', 'can:access-inventory'])->group(function () {
 Route::get('/inventario/search', [InventarioController::class, 'search'])->name('inventario.search');
 Route::get('/inventario', [InventarioController::class, 'index'])->name('inventario.index');
 Route::get('/inventario/create', [InventarioController::class, 'create'])->name('inventario.create');
+route::get('/inventario/{inventario}', [InventarioController::class, 'show'])->name('inventario.show');
+Route::get('/mantenimientos', [mantenimientoController::class, 'index'])->name('mantenimientos.index');
+Route::get('/mantenimientos/create', [mantenimientoController::class, 'create'])->name('mantenimientos.create');
+Route::post('/mantenimientos', [mantenimientoController::class, 'store'])->name('mantenimientos.store');
+Route::get('/mantenimientos/{id}/edit', [mantenimientoController::class, 'edit'])->name('mantenimientos.edit');
+Route::put('/mantenimientos/{id}', [mantenimientoController::class, 'update'])->name('mantenimientos.update');
 
 
     Route::post('/inventario', [InventarioController::class, 'store'])->name('inventario.store');
@@ -80,29 +88,36 @@ Route::get('/inventario/create', [InventarioController::class, 'create'])->name(
 
 
 // Mostrar todos los empleados
-Route::middleware(['auth', 'can:access-inventory'])->group(function () {
-Route::get('/empleados', [EmpleadosController::class, 'index'])->name('empleados.index'); 
 
+Route::get('/empleados', [EmpleadosController::class, 'index'])->name('empleados.index'); 
 //mostrar perfil de empleado
 Route::get('/empleados/{empleado}', [EmpleadosController::class, 'show'])->name('empleados.show');
-Route::get('/empleados/{empleado}/edit', [EmpleadosController::class, 'edit'])->name('empleados.edit');
-Route::put('/empleados/{empleado}', [EmpleadosController::class, 'update'])->name('empleados.update');
-Route::delete('/empleados/{empleado}', [EmpleadosController::class, 'destroy'])->name('empleados.destroy');
+
+Route::middleware(['auth', 'can:access-admin'])->group(function () {
+    Route::get('/empleados/{empleado}/edit', [EmpleadosController::class, 'edit'])->name('empleados.edit');
+    Route::put('/empleados/{empleado}', [EmpleadosController::class, 'update'])->name('empleados.update');
+    Route::delete('/empleados/{empleado}', [EmpleadosController::class, 'destroy'])->name('empleados.destroy');
 });
 
 //rutas para mostrar sucursales de CBIT
 
+
 route::get('/_c_b_i_t', [CBITController::class, 'index'])->name('cbit.index');
+route::get('/_c_b_i_t/{cbit}', [CBITController::class, 'show'])->name('cbit.show');
+Route::middleware(['auth', 'can:access-admin'])->group(function () {
 route::post('/_c_b_i_t', [CBITController::class, 'store'])->name('cbit.store');
 route::get('/_c_b_i_t/create', [CBITController::class, 'create'])->name('cbit.create');
-route::get('/_c_b_i_t/{cbit}', [CBITController::class, 'show'])->name('cbit.show');
 route::get('/_c_b_i_t/{cbit}/edit', [CBITController::class, 'edit'])->name('cbit.edit');
 route::put('/_c_b_i_t/{cbit}', [CBITController::class, 'update'])->name('cbit.update');
 route::delete('/_c_b_i_t/{cbit}', [CBITController::class, 'destroy'])->name('cbit.destroy');
-
+});
 
 Route::middleware(['auth', 'can:access-auditory'])->group(function(){
 route::get('/Auditorias', [AuditoriaController::class, 'index'])->name('auditoria.index');
 route::get('/Auditorias/{auditoria}', [AuditoriaController::class, 'show'])->name('auditorias.show');
 
 });
+
+
+route::get('reportes/RINO', [ReportesInventarioController::class, 'EquiposNoOperativos'])->name('reportes.RINO');
+route::get('reportes/RIO', [ReportesInventarioController::class, 'EquiposOperativos'])->name('reportes.RIO');

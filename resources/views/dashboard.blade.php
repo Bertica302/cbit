@@ -75,6 +75,15 @@
                         </a>
                     </div>
 
+                                                              <br class="my-4">
+
+                                        <div class="d-flex justify-content-center">
+                        <a href="{{ route('mantenimientos.index')}}" class="btn btn-primary btn-lg px-4 shadow-sm">
+                            <i class="bi bi-box-seam me-2"></i>
+                            Mantenimientos
+                        </a>
+                    </div>
+
                     
  <br class="my-4">
 @can('access-admin', 'access-manager')

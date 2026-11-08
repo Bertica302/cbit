@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('marca');
             $table->string('modelo');
             $table->string('serial');
+            $table->json('caracteristicas')->nullable();
             $table->foreignId('usuario_id')->default(1)->constrained('usuario_sistema')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();

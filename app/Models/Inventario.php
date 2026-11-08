@@ -20,9 +20,15 @@ protected $fillable = [
         'marca',
         'modelo',
         'serial',
-        'usuario_id'
+        'usuario_id',
+        'caracteristicas'
     ];
 
+
+
+    protected $casts = [
+        'caracteristicas' => 'array',
+    ];
 
  protected static function booted(): void {
 
@@ -39,9 +45,6 @@ protected $fillable = [
 
     if (empty($model->user_id))
         $model->usuario_id = Auth::id();
-
-
-
     }
 
  });

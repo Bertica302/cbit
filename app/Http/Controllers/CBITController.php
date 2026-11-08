@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\_c_b_i_t;
 use Illuminate\Http\Request;
 
@@ -9,12 +10,40 @@ class CBITController extends Controller
 {
     public function index()
     {
-        $cbits = _c_b_i_t::query()
+        $query = _c_b_i_t::query()
             ->with('parroquia')
-            ->orderBy('nombre')
-            ->get();
+            ->orderBy('nombre');
+
+    $this->applyFilters($query, request());
+
+    $cbits = $query->paginate(5)->withQueryString();
 
         return view('CBIT.index', compact('cbits'));
+    }
+
+
+    private function applyFilters(Builder $query, Request $request): Builder
+    {
+        $filters = $request->validate([
+            'search' => 'nullable|string|max:255',
+            'direccion' => 'nullable|string|max:255',
+            'fecha' => 'nullable|date_format:Y-m-d',
+        ]);
+
+        $query->when($filters['search'] ?? null, function ($q, $search) {
+            $q->where('nombre', 'like', '%' . $search . '%')
+                ->orWhere('direccion', 'like', '%' . $search . '%')
+                ->orwhereHas('parroquia', function (Builder $parroquiaQuery) use ($search) {
+                    $parroquiaQuery->where('nombre', 'like', '%' . $search . '%');
+                });
+        });
+
+    $query->when($filters['fecha'] ?? null, function ($q, $fecha) {
+        $q->whereDate('created_at', $fecha);
+    });
+
+
+        return $query;
     }
 
     public function show(_c_b_i_t $cbit)

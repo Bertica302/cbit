@@ -143,6 +143,16 @@
 			<div class="d-flex flex-wrap gap-2 justify-content-center mt-4">
 				<a class="btn btn-employee btn-employee-outline" href="{{ route('auditoria.index') }}">Volver al directorio</a>
 				<a class="btn btn-employee btn-employee-primary" href="{{ route('dashboard') }}">Ir al inicio</a>
+				<button onclick="window.print()" class="btn btn-primary">Imprimir / Guardar PDF</button>
+
+<style>
+@media print {
+    /* Ocultar botones y elementos que no van en el reporte */
+    button, a, .no-print {
+        display: none !important;
+    }
+}
+</style>
 			</div>
 		</div>
 	</main>

@@ -29,6 +29,17 @@
     <a class="btn btn-employee btn-employee-primary" href="{{ route('inventario.create') }}">
       <i class="bi bi-plus-lg me-1" aria-hidden="true"></i>Agregar inventario
     </a>
+
+    <div class="dropdown">
+  <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+    Reportes
+  </button>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="{{ route('reportes.RINO') }}">Equipos no Operativos</a></li>
+    <li><a class="dropdown-item" href="{{ route('reportes.RIO') }}">Equipos Operativos</a></li>
+    <li><a class="dropdown-item" href="#">Link 3</a></li>
+  </ul>
+    </div>
   </header>
 
   <details class="employee-filters" {{ request()->hasAny(['usuario', 'nombre', 'tipo', 'modelo', 'estado', 'marca', 'serial', 'fecha']) ? 'open' : '' }}>
@@ -59,6 +70,7 @@
           <option value="">Todos</option>
           <option value="operativo" @selected(request('estado') === 'operativo')>Operativo</option>
           <option value="no operativo" @selected(request('estado') === 'no operativo')>No operativo</option>
+          <option value="mantenimiento" @selected(request('estado') === 'mantenimiento')> En mantenimiento</option>
         </select>
       </div>
       <div class="col-6 col-lg-3">
@@ -101,7 +113,7 @@
           <tr>
             <td>{{ $inventarios->firstItem() + $loop->index }}</td>
             <td>{{ $inventario->usuario->nombreUsuario ?? 'Sin usuario' }}</td>
-            <td>{{ $inventario->nombre }}</td>
+            <td><a class="employee-name" href="{{ route('inventario.show', $inventario->id) }}">{{ $inventario->nombre }}</td>
             <td>{{ $inventario->tipo }}</td>
             <td>{{ $inventario->estado }}</td>
             <td>{{ $inventario->marca }}</td>
@@ -138,6 +150,8 @@
   		<div class="d-flex flex-wrap gap-2 justify-content-center mt-4">
 			<a class="btn btn-employee btn-employee-primary" href="{{ route('dashboard') }}">Ir al inicio</a>
 		</div>
-</main>
 
+
+
+</main>
 @endsection

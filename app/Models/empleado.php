@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\PermisoCbit;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory; 
 
@@ -32,13 +34,22 @@ class empleado extends Model
         return $this->belongsTo(parroquia::class);   
         }     
 
-    public function isadmin(){
-        return $this->rol_id === self:: ROL_ADMIN;
-    }
-    
-    public function isempleado(){
-        return $this->rol_id === self:: ROL_EMPLEADO;
-    }
 
-} 
+
+
+
+ /*protected static function booted(): void {
+
+ static::addGlobalScope((new PermisoCbit));
+
+}
+
+*/
+
+ public function empleado (){
+    return $this->belongsTo(Empleado::class, 'empleado_id', 'id');    
+    }
+ }
+
+
 
