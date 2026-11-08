@@ -12,6 +12,15 @@
 </div>
 @endif
 
+ @if ($errors->any())
+   <div style="color:red;">
+    <ul>
+    @foreach ($errors->all() as $error)
+<li>{{ $error }}</li>
+@endforeach
+  @endif 
+</br>
+
 <form action="{{route('search')}}" method="POST" style="margin-top:20px;"> 
     @csrf
 

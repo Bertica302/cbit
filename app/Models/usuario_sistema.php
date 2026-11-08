@@ -18,4 +18,9 @@ protected $table = 'usuario_sistema';
         return $this->belongsTo(empleado::class, 'empleado_id', 'id');    
         }
 
+        public function images()
+        {
+            return $this->hasMany(imagenes::class); 
+        }
+
 }

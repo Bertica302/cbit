@@ -6,7 +6,8 @@ use App\http\Controllers\inicioController;
 use App\http\Controllers\registroController; 
 use App\http\Controllers\usuarioController; 
 use App\http\Controllers\RecuperacionController;  
-use App\http\Controllers\InscripcionController; 
+use App\http\Controllers\InscripcionController;
+ use App\http\Controllers\imagenesController; 
 use App\http\Middleware\RolMiddleware;   
 
 
@@ -26,7 +27,10 @@ Route::get('/dashboard/admin', function () {
 })->name('Admin'); 
 
 
-Route::post('/logout', [inicioController::class, 'logout'])->name('logout'); 
+Route::post('/logout', [inicioController::class, 'logout'])->name('logout');
+
+Route::get('/registro/buscar', [registroController::class, "buscarCedulaForm"])->name("busqueda");
+ Route::post('/registro/buscar', [registroController::class, "buscarCedula"])->name("search");  
 
 Route::get('/install', [registroController::class, "PrimerRegistro"])->name("PrimerRegistro");      
 Route::post('/store', [registroController::class, "storeAdmin"])->name("RegistroAdministrador");   
@@ -35,8 +39,8 @@ Route::get('/admin/usuarios', [EmpleadoController::class, "crear"])->name("prere
 
 Route::post('/admin/usuarios', [EmpleadoController::class, "guardarEmpleado"])->name("RegistroHecho");   
 
-Route::get('/registro/buscar', [registroController::class, "buscarCedulaForm"])->name("busqueda"); 
-Route::post('/registro/buscar', [registroController::class, "buscarCedula"])->name("search"); 
+
+ 
 Route::get('/registro/completar/{empleado}', [registroController::class, "completarForm"])->name("completar");  
 Route::post('/registro/completar/{empleado}', [registroController::class, "completarGuardar"])->name("empleadoActualizar"); 
 Route::get('/usuario/registro/{empleado}', [usuarioController::class, "UserRegistro"])->name("usuario-registro");
@@ -51,8 +55,18 @@ Route::get('/recuperar/codigo/{id}', [RecuperacionController::class, "mostrarCod
  Route::post('/recuperar/nuevaClave/{id}', [RecuperacionController::class, "SaveNewClave"])->name("Save.clave");  
     
  Route::get('/menu/actividades', [InscripcionController::class, "VistaCursos"])->name("actividades.menu");      
- Route::get('/curso/inscribir', [InscripcionController::class, "VistaInscrip"])->name("Cursos");  
+ Route::get('/curso/inscribir', [InscripcionController::class, "VistaInscrip"])->name("Cursos");
+
+ Route::resource('images', imagenesController::class);  
+
+ Route::get('/images/asistencia', [imagenesController::class, "ImagesCreate"])->name("SubirAsistencia");  
  
+ Route::post('/images/asistencia', [imagenesController::class, "storeImagen"])->name("registrar.asistencia");
+
+ Route::get('/images/asistencia', [imagenesController::class, "adminIndex"])->name("planillasdeAsistencia"); 
+ 
+ 
+
  
  
 

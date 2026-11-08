@@ -12,10 +12,10 @@
 
         </br>  
 <div class="d-flex justify-content-center flex-wrap gap-3"> 
-    <a href="{{route ('actividades.menu')}}" class="btn-menu">Actividades</a>
+    <a href="{{route('actividades.menu')}}" class="btn-menu">Actividades</a>
     <a href=" " class="btn-menu">Inventario</a>    
-    <a href="" class="btn-menu">Asistencia</a>
     <a href="" class="btn-menu">Otros CBIT</a>  
     <a href="" class="btn-menu">Ver perfil</a> 
+    <a href="{{route('SubirAsistencia')}}" class="btn-menu">Subir Acta de Asistencia</a>
 
 @endsection

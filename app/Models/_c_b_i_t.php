@@ -22,6 +22,12 @@ protected $table ='_c_b_i_t';
         return $this->belongsTo(parroquia::class);     
         }
 
+public function imagenes(): HasMany 
+    {
+           return $this->hasMany(imagenes::class);     
+    }
+
+
 public function actividad(): HasMany 
     {
            return $this->hasMany(actividad::class);    

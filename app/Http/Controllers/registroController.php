@@ -14,20 +14,31 @@ class registroController extends Controller
 {
     public function buscarCedulaForm()
     {
-        return view('vista-completar-registro');
+        return view('vista-completar-registro'); 
     }
 
 
     public function buscarCedula(Request $request)
     {
         $request->validate(['cedula'=> 'required']); 
-        $empleado = empleado::where('cedula', $request->cedula)->first(); 
-        if(!$empleado){ 
-            return back()->with('error', 'La cedula no está registrada'); 
+        $empleado = empleado::where('cedula', $request->cedula)->whereDoesntHave('usuario_sistema')->first();     
+        
+
+        if(!$empleado){
+            $existe= empleado::where('cedula', $request->cedula)->exists(); 
+            $mensaje= $existe
+            ? 'Esta cedula ya tiene un registro completo. Inicia sesión.' 
+            : 'Esta cedula No está registrada'; 
+            
+            return back()->withErrors(['cedula'=>$mensaje])->withInput();
+         
         }
 
-        return redirect()->route('completar', ['empleado'=> $empleado->id]);   
-    }
+        
+            return redirect()->route('completar', ['empleado'=> $empleado->id]); 
+ 
+
+    }  
 
     public function completarForm(empleado $empleado)     
     {
@@ -41,7 +52,7 @@ class registroController extends Controller
         $request->validate([
             'Sexo'=> 'required',  
             'fec_nac'=> 'required',     
-            'correo_electronico'=> 'required', 
+            'correo_electronico'=> 'required|unique:empleado',  
             'parroquia'=>'required', 
             'direccion'=>'required',  
         ]); 
