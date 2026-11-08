@@ -12,15 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cursos', function (Blueprint $table) {
-    $table->id();
-    $table->string('nombre');
-    text('descripcion');
-    $table->enum('tipo', ['curso', 'taller'])->default('curso'); // Opcional: para saber si es curso o taller
-    $table->foreignId('cbit_id')->constrained('cbits')->onDelete('cascade'); // El CBIT automático
-    $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // El trabajador que lo registró
-    $table->timestamps();
-});
-
+            $table->id();
+            $table->string('nombre');
+            $table->text('descripcion');
+            $table->enum('tipo', ['curso', 'taller'])->default('curso'); 
+            $table->foreignId('cbit_id')->constrained('_c_b_i_t')->onDelete('cascade'); // <--- Apuntando correctamente a tu tabla _c_b_i_t
+            $table->foreignId('user_id')->constrained('usuario_sistema')->onDelete('cascade');
+            $table->timestamps();
+        });
     }
 
     /**

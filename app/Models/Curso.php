@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\_c_b_i_t; 
 
 class Curso extends Model
 {
     use HasFactory;
 
-    // Campos permitidos para la asignación masiva (Mass Assignment)
     protected $fillable = [
         'nombre',
         'descripcion',
@@ -18,19 +18,14 @@ class Curso extends Model
         'user_id',
     ];
 
-    /**
-     * Relación: Un curso pertenece a un CBIT.
-     */
+   
     public function cbit()
     {
-        return $this->belongsTo(Cbit::class);
+        return $this->belongsTo(_c_b_i_t::class, 'cbit_id');
     }
 
-    /**
-     * Relación: Un curso fue registrado por un usuario (trabajador).
-     */
     public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+{
+    return $this->belongsTo(usuario_sistema::class, 'user_id', 'id');
+}
 }

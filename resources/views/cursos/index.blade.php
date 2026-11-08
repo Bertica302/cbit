@@ -1,4 +1,4 @@
-@extends('layouts.app') <!-- O el layout que estés usando -->
+@extends('layouts2.app')
 
 @section('content')
 <div class="container">
@@ -15,7 +15,8 @@
                 <th>Nombre</th>
                 <th>Tipo</th>
                 <th>Descripción</th>
-                <th>CBIT</th>
+                <th>Registrado por</th> <!-- Columna para el empleado -->
+                <th>CBIT</th>           <!-- Columna para el centro -->
             </tr>
         </thead>
         <tbody>
@@ -24,7 +25,8 @@
                 <td>{{ $curso->nombre }}</td>
                 <td><span class="badge bg-secondary">{{ ucfirst($curso->tipo) }}</span></td>
                 <td>{{ $curso->descripcion }}</td>
-                <td>{{ $curso->cbit->nombre ?? 'N/A' }}</td>
+                <td>{{ $curso->user->empleado->nombres ?? 'Desconocido' }}</td> <!-- Muestra el empleado -->
+                <td>{{ $curso->cbit->nombre ?? 'N/A' }}</td>       <!-- Muestra el CBIT -->
             </tr>
             @endforeach
         </tbody>

@@ -10,6 +10,7 @@ use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\EmpleadosController;
 use App\Http\Controllers\CBITController;
 use App\Http\Middleware\RolMiddleware;
+use App\Http\Controllers\CursoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -92,3 +93,11 @@ Route::delete('/empleados/{empleado}', [EmpleadosController::class, 'destroy'])-
 
 route::get('/_c_b_i_t', [CBITController::class, 'index'])->name('cbit.index');
 route::get('/_c_b_i_t/{cbit}', [CBITController::class, 'show'])->name('cbit.show');
+
+
+
+
+// Rutas para Cursos y Talleres
+Route::get('/cursos', [CursoController::class, 'index'])->name('cursos.index');
+Route::get('/cursos/create', [CursoController::class, 'create'])->name('cursos.create');
+Route::post('/cursos', [CursoController::class, 'store'])->name('cursos.store');

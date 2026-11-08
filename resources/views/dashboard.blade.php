@@ -64,14 +64,13 @@
                         </a>
                     </div>
 
-                                           <br class="my-4">
-
-                                        <div class="d-flex justify-content-center">
-                        <a href="{{ route('actividades.menu')}}" class="btn btn-primary btn-lg px-4 shadow-sm">
-                            <i class="bi bi-box-seam me-2"></i>
-                            Actividades
-                        </a>
-                    </div>
+        
+                    <div class="d-flex justify-content-center">
+         <a href="{{ route('cursos.index') }}" class="btn btn-primary btn-lg px-4 shadow-sm">
+        <i class="bi bi-journal-text me-2"></i>
+        Actividades
+    </a>
+</div>
 </br>
 <form action="{{ route('logout') }}" method="POST">
     @csrf

@@ -3,62 +3,57 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Curso;
+use App\Models\usuario_sistema;
 
 class CursoController extends Controller
 {
-    /**
-     * Muestra el listado de cursos y talleres.
-     */
     public function index()
     {
-        // Opcional: Puedes mostrar todos o filtrar por el CBIT del usuario actual
-        // $cursos = Curso::where('cbit_id', Auth::user()->cbit_id)->get();
-        
         $cursos = Curso::with('cbit', 'user')->get();
-
         return view('cursos.index', compact('cursos'));
     }
 
-    /**
-     * Muestra el formulario para registrar un nuevo curso o taller.
-     */
     public function create()
     {
         return view('cursos.create');
     }
 
-    /**
-     * Almacena el curso y le asigna automáticamente el CBIT del trabajador activo.
-     */
     public function store(Request $request)
     {
-        // 1. Validar los campos del formulario
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'tipo' => 'required|in:curso,taller',
-            'descripcion' => 'required|string',
-        ]);
+        // 1. Obtenemos el nombre del usuario desde la sesión personalizada
+        $nombreUsuario = session('nombreUsuario');
 
-        // 2. Obtener el usuario autenticado actual
-        $trabajador = Auth::user();
+        // 2. Buscamos al usuario en tu modelo personalizado
+        $usuario = usuario_sistema::where('nombreUsuario', $nombreUsuario)->first();
 
-        // 3. Validar de seguridad por si el usuario no tiene un cbit_id asignado en la base de datos
-        if (!$trabajador->cbit_id) {
-            return back()->withErrors(['error' => 'Tu usuario no tiene un CBIT asignado, por favor contacta al administrador.'])->withInput();
+        if (!$usuario) {
+            return back()->withErrors(['error' => 'No se encontró una sesión activa o el usuario no existe.'])->withInput();
         }
 
-        // 4. Crear el registro inyectando automáticamente el cbit_id de la sesión
+        // 3. Verificamos que el usuario tenga un empleado asignado
+        if (!$usuario->empleado) {
+            return back()->withErrors(['error' => 'Tu cuenta de usuario no tiene un empleado asociado.'])->withInput();
+        }
+
+        // 4. Obtenemos el CBIT directamente de la columna '_c_b_i_t_id' del empleado
+        $cbitId = $usuario->empleado->_c_b_i_t_id;
+
+        // Validamos que el empleado tenga un CBIT seleccionado en su perfil
+        if (!$cbitId) {
+            return back()->withErrors(['error' => 'El empleado asociado no tiene un CBIT asignado en su perfil.'])->withInput();
+        }
+
+        // 5. Creamos el curso vinculando el ID de tu usuario_sistema y el CBIT automático
         Curso::create([
-            'nombre'      => $request->nombre,
-            'tipo'        => $request->tipo,
+            'nombre' => $request->nombre,
+            'tipo' => $request->tipo,
             'descripcion' => $request->descripcion,
-            'cbit_id'     => $trabajador->cbit_id, // <--- Aquí se asigna automáticamente el ID del CBIT
-            'user_id'     => $trabajador->id,       // Guarda qué trabajador específico lo registró
+            'cbit_id' => $cbitId,
+            'user_id' => $usuario->id,
         ]);
 
-        // 5. Redirigir al listado con un mensaje de éxito
-        return redirect()->route('cursos.index')->with('success', 'Curso o taller registrado exitosamente bajo tu CBIT.');
+        // 6. Redirigir al listado con éxito
+        return redirect()->route('cursos.index')->with('success', 'Curso o taller registrado exitosamente.');
     }
 }
