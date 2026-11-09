@@ -56,6 +56,7 @@ Route::post('/registro/buscar', [registroController::class, "buscarCedula"])->na
 Route::get('/registro/completar/{empleado}', [registroController::class, "completarForm"])->name("completar");  
 Route::post('/registro/completar/{empleado}', [registroController::class, "completarGuardar"])->name("empleadoActualizar"); 
 Route::get('/usuario/registro/{empleado}', [usuarioController::class, "UserRegistro"])->name("usuario-registro");
+Route::get('/admin/prerigristroEmpleado',[EmpleadoController::class, "crear"])->name("admin.preregistroEmpleado");
 
 //rutas de Registro de usuario y recuperación de contraseña
 Route::post('/usuario/registro/{empleado}', [usuarioController::class, "storeUsuario"])->name("usuario-store");
@@ -66,9 +67,7 @@ Route::get('/recuperar/preguntas/{id}', [RecuperacionController::class, "mostrar
 Route::get('/recuperar/codigo/{id}', [RecuperacionController::class, "mostrarCodigo"])->name("codigo.usuario"); 
  Route::post('/recuperar/codigo/{id}', [RecuperacionController::class, "codigoValidacion"])->name("codigo.validado");   
  Route::get('/recuperar/NuevaClave/{id}', [RecuperacionController::class, "ModificarClave"])->name("claveNueva");
- Route::post('/recuperar/nuevaClave/{id}', [RecuperacionController::class, "SaveNewClave"])->name("Save.clave");  
-    //rutas de inscripcion
- Route::get('/menu/actividades', [InscripcionController::class, "VistaCursos"])->name("actividades.menu");      
+ Route::post('/recuperar/nuevaClave/{id}', [RecuperacionController::class, "SaveNewClave"])->name("Save.clave");     
  
  
  
@@ -131,7 +130,7 @@ route::get('/Auditorias/{auditoria}', [AuditoriaController::class, 'show'])->nam
 
 route::get('reportes/RINO', [ReportesInventarioController::class, 'EquiposNoOperativos'])->name('reportes.RINO');
 route::get('reportes/RIO', [ReportesInventarioController::class, 'EquiposOperativos'])->name('reportes.RIO');
- Route::get('/curso/inscribir', [InscripcionController::class, "VistaInscrip"])->name("Cursos");
+
 
  Route::resource('images', imagenesController::class);  
 

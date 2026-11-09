@@ -60,6 +60,7 @@ $request->validate([
     '_c_b_i_t_id'=>$request->_c_b_i_t_id,         
 ]); 
 
+return redirect()->route('empleados.index')->with('success'. 'empleado registrado correctamente');
 
     }
 

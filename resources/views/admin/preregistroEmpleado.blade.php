@@ -85,6 +85,13 @@
     </div>
 </br></br>
 
+
+<div class="mb-3">
+        <label>Correo electronico</label>
+        <input type="text" name="correo_electronico" value= "{{old('correo_electronico', $correco_electronico ?? '')}}" required>  
+    </div>
+</br></br>
+
 <label>Designe el Rol del Nuevo Empleado</label>
 <select name="rol_id">
 <option value="">Roles Disponibles</option>

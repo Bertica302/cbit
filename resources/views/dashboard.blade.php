@@ -69,7 +69,7 @@
                                            <br class="my-4">
 
                                         <div class="d-flex justify-content-center">
-                        <a href="{{ route('actividades.menu')}}" class="btn btn-primary btn-lg px-4 shadow-sm">
+                        <a href="" class="btn btn-primary btn-lg px-4 shadow-sm">
                             <i class="bi bi-box-seam me-2"></i>
                             Actividades
                         </a>
