@@ -12,6 +12,7 @@ use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\EmpleadosController;
 use App\Http\Controllers\CBITController;
 use App\Http\Middleware\RolMiddleware;
+use App\Http\Controllers\CursoController;
 use App\Http\Controllers\ReportesInventarioController;
 use App\Http\Controllers\mantenimientoController; 
 use App\http\Controllers\usuarioController; 

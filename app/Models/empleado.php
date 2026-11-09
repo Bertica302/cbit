@@ -25,10 +25,10 @@ class empleado extends Model
         return $this->belongsTo(rol::class, 'rol_id');  
         }
 
-     public function _c_b_i_t(){ 
-        return $this->belongsTo(_c_b_i_t::class);   
-        }  
-        
+     public function _c_b_i_t() { 
+    // Indicamos explícitamente la llave foránea '_c_b_i_t_id' y la llave primaria 'id'
+    return $this->belongsTo(_c_b_i_t::class, '_c_b_i_t_id', 'id');   
+} 
         
     public function parroquia(){ 
         return $this->belongsTo(parroquia::class);   
