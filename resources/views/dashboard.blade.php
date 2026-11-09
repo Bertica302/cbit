@@ -66,23 +66,20 @@
                         </a>
                     </div>
 
-        
-                    <div class="d-flex justify-content-center">
-         <a href="{{ route('cursos.index') }}" class="btn btn-primary btn-lg px-4 shadow-sm">
-        <i class="bi bi-journal-text me-2"></i>
-        Actividades
-    </a>
-</div>
-                                           <br class="my-4">
+                    <br class="my-4">
 
-                                        <div class="d-flex justify-content-center">
-                        <a href="" class="btn btn-primary btn-lg px-4 shadow-sm">
-                            <i class="bi bi-box-seam me-2"></i>
+                    <div class="d-flex justify-content-center">
+                        <a href="{{ route('cursos.index') }}" class="btn btn-primary btn-lg px-4 shadow-sm">
+                            <i class="bi bi-journal-text me-2"></i>
                             Actividades
                         </a>
                     </div>
 
-                                                              <br class="my-4">
+        
+
+
+
+                    <br class="my-4">
 
                                         <div class="d-flex justify-content-center">
                         <a href="{{ route('mantenimientos.index')}}" class="btn btn-primary btn-lg px-4 shadow-sm">

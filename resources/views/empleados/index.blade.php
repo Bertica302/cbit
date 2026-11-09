@@ -13,10 +13,12 @@
                 <p class="employee-subtitle mb-0">Listado general del personal registrado.</p>
             </div>
             <div class="employee-count">{{ $empleados->count() }} {{ $empleados->count() === 1 ? 'empleado' : 'empleados' }}</div>
-        </header>
- <a class="btn btn-employee btn-employee-primary" href="{{ route('admin.preregistroEmpleado') }}">
+
+             <a class="btn btn-employee btn-employee-primary" href="{{ route('admin.preregistroEmpleado') }}">
       <i class="bi bi-plus-lg me-1" aria-hidden="true"></i>Agregar mantenimiento
     </a>
+        </header>
+
   <details class="employee-filters" {{ request()->hasAny(['nombres', 'apellidos', 'cedula', 'correo_electronico', 'fecha']) ? 'open' : '' }}>
     <summary class="d-flex align-items-center justify-content-between fw-semibold">
       <span><i class="bi bi-funnel me-2" aria-hidden="true"></i>Filtros de búsqueda</span>
