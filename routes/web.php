@@ -21,8 +21,8 @@ use App\http\Controllers\usuarioController;
 
 
 Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+    return view('iniciosesion2');
+})->name('iniciosesion2');
 
 Route::get('/iniciosesion', [inicioController::class, "showLogin"])->name("iniciosesion");
 Route::post('/iniciosesion', [inicioController::class, "login"])->name("iniciosesion.post");  
@@ -147,5 +147,12 @@ route::get('reportes/RIO', [ReportesInventarioController::class, 'EquiposOperati
  Route::get('/cursos', [CursoController::class, 'index'])->name('cursos.index');
 Route::get('/cursos/create', [CursoController::class, 'create'])->name('cursos.create');
 Route::post('/cursos', [CursoController::class, 'store'])->name('cursos.store');
- 
 
+// ===== Botón de ayuda =====
+Route::middleware('auth')->group(function () {
+    Route::view('/ayuda/soporte', 'ayuda.soporte')->name('ayuda.soporte');
+
+    Route::get('/ayuda/falla', [\App\Http\Controllers\ReporteFallaController::class, 'create'])->name('ayuda.falla');
+    Route::post('/ayuda/falla', [\App\Http\Controllers\ReporteFallaController::class, 'store'])->name('ayuda.falla.store');
+    Route::get('/ayuda/falla/{reporte}/gracias', [\App\Http\Controllers\ReporteFallaController::class, 'gracias'])->name('ayuda.falla.gracias');
+});
