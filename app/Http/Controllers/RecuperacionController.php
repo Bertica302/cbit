@@ -51,8 +51,8 @@ return redirect()->route('mostrar', $empleado->usuario_sistema->id);
          $usuario = usuario_sistema::findOrFail($id); 
          //$empleado= $usuario->empleado;
 
-         if($usuario->respuesta1 !== $request->respuesta1 ||
-         $usuario->respuesta3 !== $request->respuesta3) { 
+         if(!Hash::check ($request->respuesta1, $usuario->respuesta1) ||
+         !Hash::check ($request->respuesta3, $usuario->respuesta3)) { 
 
             return back()->withErrors(['respuestas'=> 'Las Respuestas no Coinciden']); 
          }

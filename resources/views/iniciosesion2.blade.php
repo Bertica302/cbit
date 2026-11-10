@@ -8,7 +8,7 @@
                 <div class="card-body p-4 p-lg-5">
                     <h1 class="text-center mb-4">Iniciar Sesión</h1>
 
-                    <form method="POST" action="{{ route('iniciosesion.post') }}" class="row g-3">
+                    <form method="POST" action="{{ route('login') }}" class="row g-3">
                         @csrf
 
                         @if ($errors->any())

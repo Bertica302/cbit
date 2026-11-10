@@ -1,9 +1,5 @@
 @extends('layouts2.app')
 
-@push('styles')
-  @vite('resources/css/app.css')
-@endpush
-
 @section('content')
 <main class="employee-page container py-4 py-md-5">
   @if (session('success'))

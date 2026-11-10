@@ -1,9 +1,5 @@
 @extends('layouts2.app')
 
-@push('styles')
-@vite('resources/css/app.css')
-@endpush
-
 @section('content')
     <main class="employee-page container py-4 py-md-5">
         <header class="employee-heading d-flex flex-column flex-sm-row align-items-sm-end justify-content-between gap-3">
@@ -60,7 +56,7 @@
                 <tbody>
                     @forelse ($mantenimientos as $mantenimiento)
                         <tr>
-                            <td>{{  ucfirst($mantenimiento->inventario->nombre) ?? 'Equipo no disponible' }}</td>
+                            <td>{{  ucfirst($mantenimiento->inventario?->nombre) ?? 'Equipo no disponible' }}</td>
                             <td>{{  ucfirst($mantenimiento->tipo) }}</td>
                             <td>{{  ucfirst($mantenimiento->descripcion) }}</td>
                             <td>{{  ucfirst($mantenimiento->tecnico) ?: 'Sin asignar' }}</td>

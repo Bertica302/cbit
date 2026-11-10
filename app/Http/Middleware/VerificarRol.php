@@ -21,6 +21,7 @@ class VerificarRol
     }
 $idRolUsuario = (string) $request->session()->get('rol_id');
 
+
 if (!in_array($idRolUsuario, $roles, true)){
 
     abort(403, 'No tienes permiso para acceder a esta página.');
