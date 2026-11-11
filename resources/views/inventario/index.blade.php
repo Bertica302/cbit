@@ -21,6 +21,8 @@
       <h1 class="employee-title mb-1">Inventario</h1>
       <p class="employee-subtitle mb-0">Equipos y productos registrados en el sistema.</p>
     </div>
+
+    
     <div class="employee-count">{{ $inventarios->total() }} {{ $inventarios->total() === 1 ? 'producto' : 'productos' }}</div>
     <a class="btn btn-employee btn-employee-primary" href="{{ route('inventario.create') }}">
       <i class="bi bi-plus-lg me-1" aria-hidden="true"></i>Agregar inventario

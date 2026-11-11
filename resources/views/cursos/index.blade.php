@@ -1,114 +1,121 @@
 @extends('layouts2.app')
 
 @section('content')
-<div class="container">
-    <h2>Listado de Cursos y Talleres</h2>
+    <main class="employee-page container py-4 py-md-5">
+        <header class="employee-heading d-flex flex-column flex-sm-row align-items-sm-end justify-content-between gap-3">
+            <div>
+                <div class="employee-eyebrow mb-2">Directorio</div>
+                <h1 class="employee-title mb-1">Cursos y talleres</h1>
+                <p class="employee-subtitle mb-0">Actividades registradas en el sistema.</p>
+            </div>
+            <div class="employee-count">{{ $cursos->count() }} {{ $cursos->count() === 1 ? 'actividad' : 'actividades' }}</div>
+            <a class="btn btn-employee btn-employee-primary" href="{{ route('cursos.create') }}">
+                <i class="bi bi-plus-lg me-1" aria-hidden="true"></i>Crear actividad
+            </a>
+        </header>
 
-    <div class="d-flex gap-2 mb-2">
-        <a href="{{ route('cursos.create') }}" class="btn btn-primary">Crear Actividad</a>
-        <a href="{{ route('dashboard') }}" class="btn btn-secondary">Volver al Inicio</a>
-    </div>
-    
-    <!-- Bloque desplegable de Filtros -->
-<details class="employee-filters mb-4 p-3 border rounded bg-light shadow-sm" {{ request()->hasAny(['nombre', 'tipo', 'estado', 'fecha']) ? 'open' : '' }}>
-    <summary class="d-flex align-items-center justify-content-between fw-semibold" style="cursor: pointer;">
-      <span><i class="bi bi-funnel me-2" aria-hidden="true"></i>Filtros de búsqueda</span>
-      <span class="small text-muted">Mostrar u ocultar</span>
-    </summary>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+        @endif
 
-    <form action="{{ route('cursos.index') }}" method="GET" class="row g-3 mt-2">
-        <!-- Filtro por Nombre -->
-        <div class="col-md-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control form-control-sm" id="nombre" name="nombre" value="{{ request('nombre') }}" placeholder="Buscar por nombre...">
+        <details class="employee-filters" {{ request()->hasAny(['nombre', 'tipo', 'estado', 'fecha']) ? 'open' : '' }}>
+            <summary class="d-flex align-items-center justify-content-between fw-semibold">
+                <span><i class="bi bi-funnel me-2" aria-hidden="true"></i>Filtros de búsqueda</span>
+                <span class="small text-muted">Mostrar u ocultar</span>
+            </summary>
+            <form action="{{ route('cursos.index') }}" method="GET" class="row g-2 align-items-end mt-2">
+                <div class="col-6 col-lg-3">
+                    <label for="nombre" class="form-label small mb-1">Nombre</label>
+                    <input type="search" class="form-control form-control-sm" id="nombre" name="nombre" value="{{ request('nombre') }}" placeholder="Buscar por nombre">
+                </div>
+                <div class="col-6 col-lg-3">
+                    <label for="tipo" class="form-label small mb-1">Tipo</label>
+                    <select class="form-select form-select-sm" id="tipo" name="tipo">
+                        <option value="">Todos los tipos</option>
+                        <option value="curso" @selected(request('tipo') === 'curso')>Curso</option>
+                        <option value="taller" @selected(request('tipo') === 'taller')>Taller</option>
+                    </select>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <label for="estado" class="form-label small mb-1">Estado</label>
+                    <select class="form-select form-select-sm" id="estado" name="estado">
+                        <option value="">Todos los estados</option>
+                        <option value="activo" @selected(request('estado') === 'activo')>Activo</option>
+                        <option value="inactivo" @selected(request('estado') === 'inactivo')>Inactivo</option>
+                    </select>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <label for="fecha" class="form-label small mb-1">Fecha de finalización</label>
+                    <input type="date" class="form-control form-control-sm" id="fecha" name="fecha" value="{{ request('fecha') }}">
+                </div>
+                <div class="col-12 d-flex justify-content-end gap-2 pt-1">
+                    <a href="{{ route('cursos.index') }}" class="btn btn-sm btn-employee btn-employee-outline">Limpiar</a>
+                    <button type="submit" class="btn btn-sm btn-employee btn-employee-primary">Aplicar filtros</button>
+                </div>
+            </form>
+        </details>
+
+        <div class="employee-table-wrap table-responsive">
+            <table class="employee-table table table-hover align-middle text-center">
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Registrado por</th>
+                        <th scope="col">CBIT</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Finaliza</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($cursos as $curso)
+                        <tr>
+                            <td><a class="employee-name" href="{{ route('cursos.show', $curso->id) }}">{{ $curso->nombre }}</a></td>
+                            <td><span class="badge bg-secondary">{{ ucfirst($curso->tipo) }}</span></td>
+                            <td class="text-start">{{ $curso->descripcion }}</td>
+                            <td>{{ $curso->user->empleado->nombres ?? 'Desconocido' }}</td>
+                            <td>{{ $curso->cbit->nombre ?? 'N/A' }}</td>
+                            <td>
+                                @if (!$curso->activo)
+                                    <span class="badge bg-danger">Inactivo</span>
+                                @elseif ($curso->estaVencido)
+                                    <span class="badge bg-warning text-dark">Vencido</span>
+                                @else
+                                    <span class="badge bg-success">Activo</span>
+                                @endif
+                            </td>
+                            <td>{{ $curso->fecha_fin ?? 'No especificada' }}</td>
+                            <td>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a class="btn btn-sm btn-employee btn-employee-outline" href="{{ route('cursos.edit', $curso->id) }}" title="Editar" aria-label="Editar {{ $curso->nombre }}">
+                                        <i class="bi bi-pencil" aria-hidden="true"></i>
+                                    </a>
+                                    <form action="{{ route('cursos.destroy', $curso->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar esta actividad?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar" aria-label="Eliminar {{ $curso->nombre }}">
+                                            <i class="bi bi-trash" aria-hidden="true"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td class="employee-muted py-4" colspan="8">No hay cursos o talleres que coincidan con la búsqueda.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
 
-        <!-- Filtro por Tipo -->
-        <div class="col-md-3">
-            <label for="tipo" class="form-label">Tipo</label>
-            <select class="form-select form-select-sm" id="tipo" name="tipo">
-                <option value="">Todos los tipos</option>
-                <option value="curso" {{ request('tipo') == 'curso' ? 'selected' : '' }}>Curso</option>
-                <option value="taller" {{ request('tipo') == 'taller' ? 'selected' : '' }}>Taller</option>
-            </select>
+        <div class="d-flex flex-wrap gap-2 justify-content-center mt-4">
+            <a class="btn btn-employee btn-employee-outline" href="{{ route('dashboard') }}">Ir al inicio</a>
         </div>
-
-        <!-- Filtro por Estado -->
-        <div class="col-md-3">
-            <label for="estado" class="form-label">Estado</label>
-            <select class="form-select form-select-sm" id="estado" name="estado">
-                <option value="">Todos los estados</option>
-                <option value="activo" {{ request('estado') == 'activo' ? 'selected' : '' }}>Activo</option>
-                <option value="inactivo" {{ request('estado') == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
-            </select>
-        </div>
-
-        <!-- Filtro por Fecha -->
-        <div class="col-md-3">
-            <label for="fecha" class="form-label">Fecha de Finalización</label>
-            <input type="date" class="form-control form-control-sm" id="fecha" name="fecha" value="{{ request('fecha') }}">
-        </div>
-
-        <!-- Botones de acción del filtro -->
-        <div class="col-12 d-flex gap-2">
-            <button type="submit" class="btn btn-primary btn-sm">Aplicar Filtros</button>
-            <a href="{{ route('cursos.index') }}" class="btn btn-secondary btn-sm">Limpiar</a>
-        </div>
-    </form>
-</details>
-
-
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Tipo</th>
-                <th>Descripción</th>
-                <th>Registrado por</th>
-                <th>CBIT</th>
-                <th>Estado</th>       <!-- NUEVA COLUMNA -->
-                <th>Finaliza</th>     <!-- NUEVA COLUMNA -->
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($cursos as $curso)
-            <tr>
-                <td>{{ $curso->nombre }}</td>
-                <td><span class="badge bg-secondary">{{ ucfirst($curso->tipo) }}</span></td>
-                <td>{{ $curso->descripcion }}</td>
-                <td>{{ $curso->user->empleado->nombres ?? 'Desconocido' }}</td>
-                <td>{{ $curso->cbit->nombre ?? 'N/A' }}</td>
-                
-                <!-- NUEVOS DATOS EN LA TABLA -->
-              <td>
-                 @if(!$curso->activo)
-                 <span class="badge bg-danger">Inactivo</span>
-             @elseif($curso->estaVencido)
-               <span class="badge bg-warning text-dark">Vencido</span>
-             @else
-               <span class="badge bg-success">Activo</span>
-              @endif
-                </td>
-                <td>{{ $curso->fecha_fin ?? 'No especificada' }}</td>
-
-                <!-- BOTONES DE ACCIÓN -->
-                <td>
-                    <a href="{{ route('cursos.edit', $curso->id) }}" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="{{ route('cursos.show', $curso->id) }}" class="btn btn-info btn-sm">Ver Detalles</a>
-                    <form action="{{ route('cursos.destroy', $curso->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Estás seguro de eliminar este curso?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
+    </main>
 @endsection

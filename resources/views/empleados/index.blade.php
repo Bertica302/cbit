@@ -10,9 +10,13 @@
             </div>
             <div class="employee-count">{{ $empleados->count() }} {{ $empleados->count() === 1 ? 'empleado' : 'empleados' }}</div>
 
+
+            @can('access-admin', 'access-manager')
              <a class="btn btn-employee btn-employee-primary" href="{{ route('admin.preregistroEmpleado') }}">
       <i class="bi bi-plus-lg me-1" aria-hidden="true"></i>Agregar mantenimiento
     </a>
+
+    @endcan
         </header>
 
   <details class="employee-filters" {{ request()->hasAny(['nombres', 'apellidos', 'cedula', 'correo_electronico', 'fecha']) ? 'open' : '' }}>

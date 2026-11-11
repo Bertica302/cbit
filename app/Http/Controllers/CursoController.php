@@ -75,7 +75,7 @@ class CursoController extends Controller
             'nombre' => $request->nombre,
             'tipo' => $request->tipo,
             'descripcion' => $request->descripcion,
-            'cbit_id' => $cbitId,
+            '_c_b_i_t_id' => $cbitId,
             'user_id' => $usuario->id,
             'fecha_fin' => $request->fecha_fin,
             'activo' => $request->has('activo') ? true : false,

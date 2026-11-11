@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('tipo', ['curso', 'taller'])->default('curso'); 
             $table->date('fecha_fin')->nullable();
             $table->boolean('activo')->default(true);
-            $table->foreignId('cbit_id')->constrained('_c_b_i_t')->onDelete('cascade'); // <--- Apuntando correctamente a tu tabla _c_b_i_t
+            $table->foreignId('_c_b_i_t_id')->constrained('_c_b_i_t')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('usuario_sistema')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();

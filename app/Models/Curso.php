@@ -20,7 +20,7 @@ class Curso extends Model
         'nombre',
         'tipo',
         'descripcion',
-        'cbit_id',
+        '_c_b_i_t_id',
         'user_id',
         'fecha_fin',
         'activo',
@@ -34,8 +34,8 @@ class Curso extends Model
         static::creating(function ($model) {
             if (Auth::check()) {
                 // Asignar CBIT automáticamente si está vacío
-                if (empty($model->cbit_id)) {
-                    $model->cbit_id = Auth::user()->empleado?->_c_b_i_t_id;
+                if (empty($model->_c_b_i_t_id)) {
+                    $model->_c_b_i_t_id = Auth::user()->empleado?->_c_b_i_t_id;
                 }
 
                 // Asignar ID de usuario automáticamente si está vacío
@@ -49,7 +49,7 @@ class Curso extends Model
     // Relación con el CBIT
     public function cbit()
     {
-        return $this->belongsTo(_c_b_i_t::class, 'cbit_id');
+        return $this->belongsTo(_c_b_i_t::class, '_c_b_i_t_id');
     }
 
     // Relación con el usuario del sistema
