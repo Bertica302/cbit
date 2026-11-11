@@ -17,6 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'rol_id' => VerificarRol::class,
             'PrevenirBackHistory' => PrevenirBackHistory::class
         ]);
+
+        // El proyecto usa la ruta 'iniciosesion', no 'login'
+        $middleware->redirectGuestsTo(fn () => route('iniciosesion'));
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

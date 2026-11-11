@@ -26,6 +26,9 @@
         <env name="DB_CONNECTION" value="sqlite"/>
         <env name="DB_DATABASE" value=":memory:"/>
 
+        <!-- Las pruebas crean usuarios sin la cadena empleado/rol/cbit -->
+        <env name="DB_FOREIGN_KEYS" value="false"/>
+
         <!-- <env name="DB_CONNECTION" value="sqlite"/> -->
         <!-- <env name="DB_DATABASE" value=":memory:"/> -->
 

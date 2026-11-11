@@ -1,4 +1,4 @@
-{{-- Botón de ayuda fijo abajo a la izquierda --}}
+{{-- Botón de ayuda fijo abajo a la derecha --}}
 <div class="position-fixed bottom-0 end-0 m-3" style="z-index: 1040;">
 
     {{-- Panel que se abre hacia arriba --}}
@@ -13,9 +13,14 @@
                 <i class="bi bi-tools"></i> Soporte
             </a>
 
-            <a href="{{ route('ayuda.falla') }}"
+            <a href="{{ route('ayuda.incidencia') }}"
+               class="btn btn-light w-100 text-start d-flex align-items-center gap-2 mb-2 text-primary fw-semibold">
+                <i class="bi bi-exclamation-triangle"></i> Reporte de incidencias
+            </a>
+
+            <a href="{{ route('ayuda.manual') }}"
                class="btn btn-light w-100 text-start d-flex align-items-center gap-2 text-primary fw-semibold">
-                <i class="bi bi-exclamation-triangle"></i> Informe de fallas
+                <i class="bi bi-file-earmark-text"></i> Manual de usuario
             </a>
         </div>
     </div>
