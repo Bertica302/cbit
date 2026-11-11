@@ -21,9 +21,8 @@ use App\Http\Middleware\PrevenirBackHistory;
 use GuzzleHttp\Middleware;
 
 Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
-
+    return view('iniciosesion2');
+})->name('iniciosesion2');
 
 Route::middleware('guest')->group(function(){
 Route::get('/iniciosesion', [inicioController::class, "showLogin"])->name("iniciosesion");
@@ -155,3 +154,12 @@ Route::get('/cursos/{id}/edit', [CursoController::class, 'edit'])->name('cursos.
 Route::put('/cursos/{id}', [CursoController::class, 'update'])->name('cursos.update');
 Route::delete('/cursos/{id}', [CursoController::class, 'destroy'])->name('cursos.destroy');
 Route::get('/cursos/{id}', [CursoController::class, 'show'])->name('cursos.show');
+
+// ===== Botón de ayuda =====
+Route::middleware('auth')->group(function () {
+    Route::view('/ayuda/soporte', 'ayuda.soporte')->name('ayuda.soporte');
+
+    Route::get('/ayuda/falla', [\App\Http\Controllers\ReporteFallaController::class, 'create'])->name('ayuda.falla');
+    Route::post('/ayuda/falla', [\App\Http\Controllers\ReporteFallaController::class, 'store'])->name('ayuda.falla.store');
+    Route::get('/ayuda/falla/{reporte}/gracias', [\App\Http\Controllers\ReporteFallaController::class, 'gracias'])->name('ayuda.falla.gracias');
+});
