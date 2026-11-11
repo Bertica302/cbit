@@ -15,6 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'rol_id' => VerificarRol::class,
         ]);
+
+        // El proyecto usa la ruta 'iniciosesion', no 'login'
+        $middleware->redirectGuestsTo(fn () => route('iniciosesion'));
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

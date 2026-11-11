@@ -152,7 +152,12 @@ Route::post('/cursos', [CursoController::class, 'store'])->name('cursos.store');
 Route::middleware('auth')->group(function () {
     Route::view('/ayuda/soporte', 'ayuda.soporte')->name('ayuda.soporte');
 
-    Route::get('/ayuda/falla', [\App\Http\Controllers\ReporteFallaController::class, 'create'])->name('ayuda.falla');
-    Route::post('/ayuda/falla', [\App\Http\Controllers\ReporteFallaController::class, 'store'])->name('ayuda.falla.store');
-    Route::get('/ayuda/falla/{reporte}/gracias', [\App\Http\Controllers\ReporteFallaController::class, 'gracias'])->name('ayuda.falla.gracias');
+    Route::get('/ayuda/incidencia', [\App\Http\Controllers\ReporteIncidenciaController::class, 'create'])->name('ayuda.incidencia');
+    Route::post('/ayuda/incidencia', [\App\Http\Controllers\ReporteIncidenciaController::class, 'store'])->name('ayuda.incidencia.store');
+    Route::get('/ayuda/incidencia/{incidencia}/gracias', [\App\Http\Controllers\ReporteIncidenciaController::class, 'gracias'])->name('ayuda.incidencia.gracias');
+
+    Route::get('/ayuda/incidencias', [\App\Http\Controllers\ReporteIncidenciaController::class, 'index'])->name('ayuda.incidencias.index');    Route::patch('/ayuda/incidencias/{incidencia}/estado', [\App\Http\Controllers\ReporteIncidenciaController::class, 'cambiarEstado'])->name('ayuda.incidencias.estado');
+    Route::delete('/ayuda/incidencias/{incidencia}', [\App\Http\Controllers\ReporteIncidenciaController::class, 'destroy'])->name('ayuda.incidencias.destroy');
+
+    Route::get('/ayuda/manual', [\App\Http\Controllers\ManualController::class, 'descargar'])->name('ayuda.manual');
 });
