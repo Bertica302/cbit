@@ -44,10 +44,13 @@ class AppServiceProvider extends ServiceProvider
 
             Gate::define('access-auditory', function ($user){
             return in_array($user->empleado?->rol_id, [1,2]);
-
-
             });
-    }
 
+            Gate::define('access-empleados', function ($user) {
+            return in_array($user->empleado?->rol_id, [1,2,3,4]);
+            });
+
+
+}
 
 }

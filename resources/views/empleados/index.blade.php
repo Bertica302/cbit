@@ -1,9 +1,5 @@
 @extends('layouts2.app')
 
-@push('styles')
-@vite('resources/css/app.css')
-@endpush
-
 @section('content')
     <main class="employee-page container py-4 py-md-5">
         <header class="employee-heading d-flex flex-column flex-sm-row align-items-sm-end justify-content-between gap-3">
@@ -72,9 +68,13 @@
                 </tbody>
             </table>
             <div class="d-flex justify-content-center mt-3">
-                
-            <a class="btn btn-employee btn-employee-primary" href="{{ route('dashboard') }}">Ir al inicio</a>
+  <div class="d-flex justify-content-center mt-4">
+    {{ $empleados->links('pagination::bootstrap-5') }}
+  </div>       
 </div>
-        </div>
+
+<div class="d-flex flex-wrap gap-2 justify-content-center mt-4">
+<a class="btn btn-employee btn-employee-primary" href="{{ route('dashboard') }}">Ir al inicio</a>
+</div>   
     </main>
 @endsection

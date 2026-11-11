@@ -1,12 +1,9 @@
 @extends('layouts2.app')
 
-@push('styles')
-    @vite('resources/css/app.css')
-@endpush
-
 @section('content')
     <main class="employee-profile-page container py-4 py-md-5">
-                    <div class="d-flex flex-wrap gap-2 justify-content-center mt-4 no-print">
+        <div class="report-wrap">
+            <div class="d-flex flex-wrap gap-2 justify-content-center mb-4 no-print">
                 <a class="btn btn-employee btn-employee-outline" href="{{ route('inventario.index') }}">
                     Volver al inventario
                 </a>
@@ -17,9 +14,7 @@
                     <i class="bi bi-printer me-1" aria-hidden="true"></i>Imprimir / Guardar PDF
                 </button>
             </div>
-        </div>
-        </br>
-        <div class="profile-wrap">
+
             <section class="profile-card">
                 <header class="profile-heading">
                     <div class="profile-eyebrow mb-2">Reporte de inventario</div>
@@ -34,7 +29,7 @@
                     </div>
                     <div class="profile-field">
                         <span class="profile-label">Equipos operativos</span>
-                        <span class="profile-value">{{ $operativos->count(); }}</span>
+                        <span class="profile-value">{{ $operativos->count() }}</span>
                     </div>
                     <div class="profile-field">
                         <span class="profile-label">Equipos no operativos</span>
@@ -87,8 +82,7 @@
                     </table>
                 </div>
             </section>
-
-
+        </div>
     </main>
 
     <style>

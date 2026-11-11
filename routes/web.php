@@ -16,25 +16,28 @@ use App\Http\Controllers\CursoController;
 use App\Http\Controllers\ReportesInventarioController;
 use App\Http\Controllers\mantenimientoController; 
 use App\http\Controllers\usuarioController; 
- use App\http\Controllers\imagenesController; 
-
-
+ use App\http\Controllers\imagenesController;
+use App\Http\Middleware\PrevenirBackHistory;
+use GuzzleHttp\Middleware;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+
+Route::middleware('guest')->group(function(){
 Route::get('/iniciosesion', [inicioController::class, "showLogin"])->name("iniciosesion");
-Route::post('/iniciosesion', [inicioController::class, "login"])->name("iniciosesion.post");  
+Route::post('/iniciosesion', [inicioController::class, "login"])->name("login");  
+});
 
+
+
+Route::middleware(['rol_id:1,2,3,4', 'PrevenirBackHistory'])->group(function(){
 Route::get('dashboard', function () {
-if(!session()->has ('id')) {
-    return redirect('/iniciosesion');  
-} 
+    return view('dashboard');
+    })->name('dashboard');
 
-return view('dashboard');
-})->name('dashboard');
-
+});
 
 Route::post('/logout', [inicioController::class, 'logout'])->name('logout');
 
@@ -98,7 +101,7 @@ Route::put('/mantenimientos/{id}', [mantenimientoController::class, 'update'])->
 
 
 // Mostrar todos los empleados
-
+Route::middleware(['auth', 'can:access-empleados'])->group(function (){
 Route::get('/empleados', [EmpleadosController::class, 'index'])->name('empleados.index'); 
 //mostrar perfil de empleado
 Route::get('/empleados/{empleado}', [EmpleadosController::class, 'show'])->name('empleados.show');
@@ -108,7 +111,7 @@ Route::middleware(['auth', 'can:access-admin'])->group(function () {
     Route::put('/empleados/{empleado}', [EmpleadosController::class, 'update'])->name('empleados.update');
     Route::delete('/empleados/{empleado}', [EmpleadosController::class, 'destroy'])->name('empleados.destroy');
 });
-
+});
 //rutas para mostrar sucursales de CBIT
 
 
