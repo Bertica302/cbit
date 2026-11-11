@@ -21,7 +21,7 @@ protected $fillable = [
         'modelo',
         'serial',
         'usuario_id',
-        'caracteristicas'
+        'caracteristicas',
     ];
 
 

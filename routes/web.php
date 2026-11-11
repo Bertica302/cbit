@@ -148,4 +148,7 @@ route::get('reportes/RIO', [ReportesInventarioController::class, 'EquiposOperati
 Route::get('/cursos/create', [CursoController::class, 'create'])->name('cursos.create');
 Route::post('/cursos', [CursoController::class, 'store'])->name('cursos.store');
  
-
+Route::get('/cursos/{id}/edit', [CursoController::class, 'edit'])->name('cursos.edit');
+Route::put('/cursos/{id}', [CursoController::class, 'update'])->name('cursos.update');
+Route::delete('/cursos/{id}', [CursoController::class, 'destroy'])->name('cursos.destroy');
+Route::get('/cursos/{id}', [CursoController::class, 'show'])->name('cursos.show');

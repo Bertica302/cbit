@@ -26,7 +26,7 @@
 
 </br>
     <label>Fecha de Nacimiento</label><br>
-    <input type="text" name="fec_nac" id="fec_nac" placeholder="Ej: 12-01-2009">
+    <input type="date" name="fec_nac" id="fec_nac" placeholder="Ej: 12-01-2009">
 </br>
 
 <label>Correo Electrónico</label><br>

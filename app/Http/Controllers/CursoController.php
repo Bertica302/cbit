@@ -5,12 +5,38 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Curso;
 use App\Models\usuario_sistema;
-
+use App\Models\_c_b_i_t;
 class CursoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $cursos = Curso::with('cbit', 'user')->get();
+        // Iniciamos la consulta con las relaciones necesarias
+        $query = Curso::with('cbit', 'user.empleado');
+
+        // Filtrar por nombre si se escribió algo
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'like', '%' . $request->nombre . '%');
+        }
+
+        // Filtrar por tipo (curso o taller)
+        if ($request->filled('tipo')) {
+            $query->where('tipo', $request->tipo);
+        }
+
+        // Filtrar por estado (activo o inactivo)
+        if ($request->filled('estado')) {
+            $activo = $request->estado === 'activo' ? 1 : 0;
+            $query->where('activo', $activo);
+        }
+
+        // Filtrar por fecha de finalización exacta
+        if ($request->filled('fecha')) {
+            $query->whereDate('fecha_fin', $request->fecha);
+        }
+
+        // Obtenemos los resultados filtrados
+        $cursos = $query->get();
+
         return view('cursos.index', compact('cursos'));
     }
 
@@ -44,16 +70,64 @@ class CursoController extends Controller
             return back()->withErrors(['error' => 'El empleado asociado no tiene un CBIT asignado en su perfil.'])->withInput();
         }
 
-        // 5. Creamos el curso vinculando el ID de tu usuario_sistema y el CBIT automático
+        // 5. Se crea el curso vinculando el ID de tu usuario_sistema y el CBIT automático
         Curso::create([
             'nombre' => $request->nombre,
             'tipo' => $request->tipo,
             'descripcion' => $request->descripcion,
             'cbit_id' => $cbitId,
             'user_id' => $usuario->id,
-        ]);
-
+            'fecha_fin' => $request->fecha_fin,
+            'activo' => $request->has('activo') ? true : false,
+]);
+        
         // 6. Redirigir al listado con éxito
         return redirect()->route('cursos.index')->with('success', 'Curso o taller registrado exitosamente.');
     }
+
+    // ==========================================
+    // MÉTODOS NUEVOS PARA EDITAR Y ELIMINAR
+    // ==========================================
+
+    // Muestra el formulario para editar un curso existente
+    public function edit($id)
+    {
+        $curso = Curso::findOrFail($id);
+        return view('cursos.edit', compact('curso'));
+    }
+
+    // Actualiza los datos del curso en la base de datos
+    public function update(Request $request, $id)
+    {
+        $curso = Curso::findOrFail($id);
+
+        $curso->update([
+            'nombre' => $request->nombre,
+            'tipo' => $request->tipo,
+            'descripcion' => $request->descripcion,
+            'fecha_fin' => $request->fecha_fin,
+            'activo' => $request->has('activo') ? true : false,
+        ]);
+
+        return redirect()->route('cursos.index')->with('success', 'Curso o taller actualizado exitosamente.');
+    }
+
+    // Elimina el curso de la base de datos
+    public function destroy($id)
+    {
+        $curso = Curso::findOrFail($id);
+        $curso->delete();
+
+        return redirect()->route('cursos.index')->with('success', 'Curso o taller eliminado exitosamente.');
+    }
+
+// Muestra el detalle completo de un curso o taller
+    public function show($id)
+    {
+        $curso = Curso::with('cbit', 'user.empleado')->findOrFail($id);
+        
+        return view('cursos.show', compact('curso'));
+    }
+
+    
 }

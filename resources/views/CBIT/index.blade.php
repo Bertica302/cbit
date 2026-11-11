@@ -14,7 +14,7 @@
 			</div>
 			<div class="employee-count">{{ $cbits->count() }} {{ $cbits->count() === 1 ? 'centro' : 'centros' }}</div>
 			@can ('access-admin')
-			<a class="btn btn-employee btn-employee-primary" href="{{ route('cbit.create') }}">Registrar nuevo centro</a>
+			<a class="btn btn-employee btn-employee-primary" href="{{route('cbit.create')}}">Registrar nuevo centro</a>
 			@endcan
 		</header>
 
