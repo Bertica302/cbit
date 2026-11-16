@@ -77,8 +77,8 @@ class InventarioController extends Controller
             'nombre' => 'required|string|max:100',
             'tipo' => 'required|max:100',
             'estado' => 'required|in:operativo,no operativo',
-            'marca' => 'required',
-            'modelo' => 'required',
+            'marca' => 'required|string|max:255',
+            'modelo' => 'required|string|max:255',
             'serial' => 'required|max:255',
 
         'caracteristicas' => 'nullable|array',
