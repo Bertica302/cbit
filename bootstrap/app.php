@@ -1,0 +1,29 @@
+<?php
+
+use App\Http\Middleware\PrevenirBackHistory;
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Foundation\Configuration\Middleware;
+use App\Http\Middleware\VerificarRol;
+
+return Application::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        web: __DIR__.'/../routes/web.php',
+        commands: __DIR__.'/../routes/console.php',
+        health: '/up',
+    )
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->alias([
+            'rol_id' => VerificarRol::class,
+            'PrevenirBackHistory' => PrevenirBackHistory::class
+        ]);
+
+        // El proyecto usa la ruta 'iniciosesion', no 'login'
+        $middleware->redirectGuestsTo(fn () => route('iniciosesion'));
+    })
+    ->withExceptions(function (Exceptions $exceptions) {
+        //
+    })->create();
+
+
+    

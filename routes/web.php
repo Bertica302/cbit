@@ -1,0 +1,172 @@
+<?php
+
+use App\Http\Controllers\AuditoriaController;
+use App\Http\Controllers\EmpleadoController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\inicioController;
+use App\Http\Controllers\registroController; 
+
+use App\Http\Controllers\RecuperacionController;
+use App\Http\Controllers\InscripcionController;
+use App\Http\Controllers\InventarioController;
+use App\Http\Controllers\EmpleadosController;
+use App\Http\Controllers\CBITController;
+use App\Http\Middleware\RolMiddleware;
+use App\Http\Controllers\CursoController;
+use App\Http\Controllers\ReportesInventarioController;
+use App\Http\Controllers\mantenimientoController; 
+use App\http\Controllers\usuarioController; 
+ use App\http\Controllers\imagenesController;
+use App\Http\Middleware\PrevenirBackHistory;
+use GuzzleHttp\Middleware;
+
+Route::get('/', function () {
+    return view('iniciosesion2');
+})->name('iniciosesion2');
+
+Route::middleware('guest')->group(function(){
+Route::get('/iniciosesion', [inicioController::class, "showLogin"])->name("iniciosesion");
+Route::post('/iniciosesion', [inicioController::class, "login"])->name("login");  
+});
+
+
+
+Route::middleware(['rol_id:1,2,3,4', 'PrevenirBackHistory'])->group(function(){
+Route::get('dashboard', function () {
+    return view('dashboard');
+    })->name('dashboard');
+
+});
+
+Route::post('/logout', [inicioController::class, 'logout'])->name('logout');
+
+Route::get('/registro/buscar', [registroController::class, "buscarCedulaForm"])->name("busqueda");
+ Route::post('/registro/buscar', [registroController::class, "buscarCedula"])->name("search");  
+
+Route::get('/install', [registroController::class, "PrimerRegistro"])->name("PrimerRegistro");      
+Route::post('/store', [registroController::class, "storeAdmin"])->name("RegistroAdministrador");   
+
+Route::get('/admin/usuarios', [EmpleadoController::class, "crear"])->name("preregistro");  
+
+Route::post('/admin/usuarios', [EmpleadoController::class, "guardarEmpleado"])->name("RegistroHecho");   
+
+
+ 
+Route::post('/store', [registroController::class, "storeAdmin"])->name("RegistroAdministrador");         
+//rutas de registro de empleado
+Route::get('/registro/buscar', [registroController::class, "buscarCedulaForm"])->name("busqueda"); 
+Route::post('/registro/buscar', [registroController::class, "buscarCedula"])->name("search"); 
+Route::get('/registro/completar/{empleado}', [registroController::class, "completarForm"])->name("completar");  
+Route::post('/registro/completar/{empleado}', [registroController::class, "completarGuardar"])->name("empleadoActualizar"); 
+Route::get('/usuario/registro/{empleado}', [usuarioController::class, "UserRegistro"])->name("usuario-registro");
+Route::get('/admin/prerigristroEmpleado',[EmpleadoController::class, "crear"])->name("admin.preregistroEmpleado");
+
+//rutas de Registro de usuario y recuperación de contraseña
+Route::post('/usuario/registro/{empleado}', [usuarioController::class, "storeUsuario"])->name("usuario-store");
+Route::get('/usuario/recuperar', [RecuperacionController::class, "buscarUsuario"])->name("buscar.usuario"); 
+Route::post('/usuario/recuperar', [RecuperacionController::class, "procesarBusqueda"])->name("procesar");    
+Route::get('/recuperar/preguntas/{id}', [RecuperacionController::class, "mostrarPreguntas"])->name("mostrar");       
+ Route::post('/recuperar/preguntas/{id}', [RecuperacionController::class, "ValidarPreguntas"])->name("validar.usuario"); 
+Route::get('/recuperar/codigo/{id}', [RecuperacionController::class, "mostrarCodigo"])->name("codigo.usuario"); 
+ Route::post('/recuperar/codigo/{id}', [RecuperacionController::class, "codigoValidacion"])->name("codigo.validado");   
+ Route::get('/recuperar/NuevaClave/{id}', [RecuperacionController::class, "ModificarClave"])->name("claveNueva");
+ Route::post('/recuperar/nuevaClave/{id}', [RecuperacionController::class, "SaveNewClave"])->name("Save.clave");     
+ 
+ 
+ 
+
+
+// Rutas de inventario
+Route::middleware(['auth', 'can:access-inventory'])->group(function () {
+Route::get('/inventario/search', [InventarioController::class, 'search'])->name('inventario.search');
+Route::get('/inventario', [InventarioController::class, 'index'])->name('inventario.index');
+Route::get('/inventario/create', [InventarioController::class, 'create'])->name('inventario.create');
+route::get('/inventario/{inventario}', [InventarioController::class, 'show'])->name('inventario.show');
+Route::get('/mantenimientos', [mantenimientoController::class, 'index'])->name('mantenimientos.index');
+Route::get('/mantenimientos/create', [mantenimientoController::class, 'create'])->name('mantenimientos.create');
+Route::post('/mantenimientos', [mantenimientoController::class, 'store'])->name('mantenimientos.store');
+Route::get('/mantenimientos/{id}/edit', [mantenimientoController::class, 'edit'])->name('mantenimientos.edit');
+Route::put('/mantenimientos/{id}', [mantenimientoController::class, 'update'])->name('mantenimientos.update');
+
+
+    Route::post('/inventario', [InventarioController::class, 'store'])->name('inventario.store');
+    Route::get('/inventario/{inventario}/edit', [InventarioController::class, 'edit'])->name('inventario.edit');
+    Route::put('/inventario/{inventario}', [InventarioController::class, 'update'])->name('inventario.update');
+    Route::delete('/inventario/{inventario}', [InventarioController::class, 'destroy'])->name('inventario.destroy');
+});
+
+
+// Rutas de empleados
+
+
+// Mostrar todos los empleados
+Route::middleware(['auth', 'can:access-empleados'])->group(function (){
+Route::get('/empleados', [EmpleadosController::class, 'index'])->name('empleados.index'); 
+//mostrar perfil de empleado
+Route::get('/empleados/{empleado}', [EmpleadosController::class, 'show'])->name('empleados.show');
+
+Route::middleware(['auth', 'can:access-admin'])->group(function () {
+    Route::get('/empleados/{empleado}/edit', [EmpleadosController::class, 'edit'])->name('empleados.edit');
+    Route::put('/empleados/{empleado}', [EmpleadosController::class, 'update'])->name('empleados.update');
+    Route::delete('/empleados/{empleado}', [EmpleadosController::class, 'destroy'])->name('empleados.destroy');
+});
+});
+//rutas para mostrar sucursales de CBIT
+
+
+route::get('/_c_b_i_t', [CBITController::class, 'index'])->name('cbit.index');
+route::get('/_c_b_i_t/{cbit}', [CBITController::class, 'show'])->name('cbit.show');
+Route::middleware(['auth', 'can:access-admin'])->group(function () {
+route::post('/_c_b_i_t', [CBITController::class, 'store'])->name('cbit.store');
+route::get('/_c_b_i_t/create', [CBITController::class, 'create'])->name('cbit.create');
+route::get('/_c_b_i_t/{cbit}/edit', [CBITController::class, 'edit'])->name('cbit.edit');
+route::put('/_c_b_i_t/{cbit}', [CBITController::class, 'update'])->name('cbit.update');
+route::delete('/_c_b_i_t/{cbit}', [CBITController::class, 'destroy'])->name('cbit.destroy');
+});
+
+Route::middleware(['auth', 'can:access-auditory'])->group(function(){
+route::get('/Auditorias', [AuditoriaController::class, 'index'])->name('auditoria.index');
+route::get('/Auditorias/{auditoria}', [AuditoriaController::class, 'show'])->name('auditorias.show');
+
+});
+
+
+route::get('reportes/RINO', [ReportesInventarioController::class, 'EquiposNoOperativos'])->name('reportes.RINO');
+route::get('reportes/RIO', [ReportesInventarioController::class, 'EquiposOperativos'])->name('reportes.RIO');
+
+
+ Route::resource('images', imagenesController::class);  
+
+ Route::get('/images/asistencia', [imagenesController::class, "ImagesCreate"])->name("SubirAsistencia");  
+ 
+ Route::post('/images/asistencia', [imagenesController::class, "storeImagen"])->name("registrar.asistencia");
+
+ Route::get('/images/asistencia', [imagenesController::class, "adminIndex"])->name("planillasdeAsistencia"); 
+ 
+ 
+
+ 
+ Route::get('/cursos', [CursoController::class, 'index'])->name('cursos.index');
+Route::get('/cursos/create', [CursoController::class, 'create'])->name('cursos.create');
+Route::post('/cursos', [CursoController::class, 'store'])->name('cursos.store');
+ 
+Route::get('/cursos/{id}/edit', [CursoController::class, 'edit'])->name('cursos.edit');
+Route::put('/cursos/{id}', [CursoController::class, 'update'])->name('cursos.update');
+Route::delete('/cursos/{id}', [CursoController::class, 'destroy'])->name('cursos.destroy');
+Route::get('/cursos/{id}', [CursoController::class, 'show'])->name('cursos.show');
+
+// ===== Botón de ayuda =====
+Route::middleware('auth')->group(function () {
+    Route::get('/ayuda/incidencia', [\App\Http\Controllers\ReporteIncidenciaController::class, 'create'])->name('ayuda.incidencia');
+    Route::post('/ayuda/incidencia', [\App\Http\Controllers\ReporteIncidenciaController::class, 'store'])->name('ayuda.incidencia.store');
+    Route::get('/ayuda/incidencia/{incidencia}/gracias', [\App\Http\Controllers\ReporteIncidenciaController::class, 'gracias'])->name('ayuda.incidencia.gracias');
+
+    Route::get('/ayuda/incidencias', [\App\Http\Controllers\ReporteIncidenciaController::class, 'index'])->name('ayuda.incidencias.index');
+    Route::patch('/ayuda/incidencias/{incidencia}/estado', [\App\Http\Controllers\ReporteIncidenciaController::class, 'cambiarEstado'])->name('ayuda.incidencias.estado');
+    Route::delete('/ayuda/incidencias/{incidencia}', [\App\Http\Controllers\ReporteIncidenciaController::class, 'destroy'])->name('ayuda.incidencias.destroy');
+
+    // Manual de usuario: leer (modal) + descargar
+    Route::get('/ayuda/manual', [\App\Http\Controllers\ManualController::class, 'descargar'])->name('ayuda.manual');
+    Route::get('/ayuda/manual/leer', [\App\Http\Controllers\ManualController::class, 'leer'])->name('ayuda.manual.leer');
+});
+// Cambios de Kevin para el Pull Request

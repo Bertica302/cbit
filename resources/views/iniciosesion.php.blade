@@ -1,0 +1,66 @@
+extends('layouts.app')
+
+@section('content') 
+<div class="max-w-4xl mx-auto px-4">
+    <h1>Pagos</h1> 
+
+
+    @if($errors->any())
+
+        <div>
+        <h2>¡Error!</h2> 
+        <ul>
+
+            @foreach ($errors->all() as $error)
+
+            <li>
+                {{$error}}
+            </li>
+
+            @endforeach
+        </ul>
+        </div>
+        @endif
+
+    <form action="{{route('estudiante.pagar')}}" method="POST">  
+        
+        @csrf
+
+        <label for="estudiantes_id">Estudiante:</label>
+        <select name="estudiantes_id" required> 
+            @foreach($estudiante as $alumno) 
+            <option value="{{$alumno->id}}">{{$alumno->nombres}}</option>  
+            @endforeach  
+        </select>
+
+    </br></br>
+
+        <label for="monto">Monto:</label>
+<input type="text" name="monto">  
+    </br></br>
+
+
+
+<label for="modoPago">Método de Pago</label>
+<select name="modo_pago" required>
+<option value="Efectivo">Efectivo</option>
+<option value="Pago Móvil">Pago Móvil</option>
+</select>
+</br></br>
+
+
+<label for="meses">Meses a Pagar:</label>
+<input type="text" name="meses"> 
+
+
+</br></br>
+<button type="submit">Registrar<button>
+
+
+
+    </form>
+
+</div>
+
+
+@endsection

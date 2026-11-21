@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Models;
+
+use App\Models\Scopes\PermisoCbit;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory; 
+
+class empleado extends Model
+{
+   use HasFactory;     
+     
+    protected $table = 'empleado'; 
+    protected $fillable=['nombres', 'apellidos', 'cedula', 'sexo', 'fec_nac', 'correo_electronico', 'rol_id', '_c_b_i_t_id', 'parroquia_id', 'direccion'];  
+    
+        const ROL_ADMIN = 1;
+        const ROL_EMPLEADO = 2;
+
+
+    public function usuario_sistema(){
+        return $this->hasOne(usuario_sistema::class, 'empleado_id', 'id'); 
+    }
+    public function rol(){
+        return $this->belongsTo(rol::class, 'rol_id');  
+        }
+
+     public function _c_b_i_t() { 
+    // Indicamos explícitamente la llave foránea '_c_b_i_t_id' y la llave primaria 'id'
+    return $this->belongsTo(_c_b_i_t::class, '_c_b_i_t_id', 'id');   
+} 
+        
+    public function parroquia(){ 
+        return $this->belongsTo(parroquia::class);   
+        }     
+
+
+
+
+
+ /*protected static function booted(): void {
+
+ static::addGlobalScope((new PermisoCbit));
+
+}
+
+*/
+
+ public function empleado (){
+    return $this->belongsTo(Empleado::class, 'empleado_id', 'id');    
+    }
+ }
+
+
+
