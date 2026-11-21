@@ -99,6 +99,14 @@
                             </td>
 
                             <td class="text-end text-nowrap">
+                                {{-- NUEVO: botón Ver --}}
+                                <button type="button"
+                                        class="btn btn-sm btn-outline-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalIncidencia{{ $incidencia->id }}">
+                                    <i class="bi bi-eye me-1"></i> Ver
+                                </button>
+
                                 <form method="POST"
                                       action="{{ route('ayuda.incidencias.estado', $incidencia) }}"
                                       class="d-inline">
@@ -130,6 +138,54 @@
                 </tbody>
             </table>
         </div>
+
+        {{-- Modales para ver asunto y descripción de cada incidencia --}}
+        @foreach ($incidencias as $incidencia)
+            <div class="modal fade" id="modalIncidencia{{ $incidencia->id }}" tabindex="-1"
+                 aria-labelledby="modalIncidenciaLabel{{ $incidencia->id }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalIncidenciaLabel{{ $incidencia->id }}">
+                                Reporte #{{ $incidencia->id }}
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="mb-2">
+                                <span class="text-secondary small text-uppercase fw-bold">Asunto</span><br>
+                                <span class="fw-semibold">{{ $incidencia->asunto }}</span>
+                            </p>
+                            <p class="mb-2">
+                                <span class="text-secondary small text-uppercase fw-bold">Categoría</span><br>
+                                <span class="badge text-bg-light border">{{ $incidencia->categoriaEtiqueta() }}</span>
+                            </p>
+                            <p class="mb-2">
+                                <span class="text-secondary small text-uppercase fw-bold">Prioridad</span><br>
+                                <span class="badge {{ match ($incidencia->prioridad) {
+                                    'alta' => 'text-bg-danger',
+                                    'media' => 'text-bg-warning',
+                                    default => 'text-bg-secondary',
+                                } }}">{{ ucfirst($incidencia->prioridad) }}</span>
+                            </p>
+                            <p class="mb-2">
+                                <span class="text-secondary small text-uppercase fw-bold">Estado</span><br>
+                                <span class="badge {{ $incidencia->estaResuelto() ? 'text-bg-success' : 'text-bg-warning' }}">
+                                    {{ ucfirst(str_replace('_', ' ', $incidencia->estado)) }}
+                                </span>
+                            </p>
+                            <p class="mb-0">
+                                <span class="text-secondary small text-uppercase fw-bold">Descripción</span><br>
+                                <span style="white-space: pre-wrap;">{{ $incidencia->descripcion }}</span>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
 
         <p class="text-secondary small mt-3 mb-0">
             <i class="bi bi-info-circle me-1"></i>
