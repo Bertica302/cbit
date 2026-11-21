@@ -77,11 +77,23 @@ class InventarioController extends Controller
             'nombre' => 'required|string|max:100',
             'tipo' => 'required|max:100',
             'estado' => 'required|in:operativo,no operativo',
-            'marca' => 'required',
-            'modelo' => 'required',
-            'serial' => 'required|max:255'
+            'marca' => 'required|string|max:255',
+            'modelo' => 'required|string|max:255',
+            'serial' => 'required|max:255',
 
-        ], [
+        'caracteristicas' => 'nullable|array',
+            
+            'caracteristicas.procesador' => 'nullable|string|max:255',
+            'caracteristicas.ram' => 'nullable|string|max:255',
+            'caracteristicas.almacenamiento' => 'nullable|string|max:255',
+            'caracteristicas.tarjeta_grafica' => 'nullable|string|max:255',
+            'caracteristicas.motherboard' => 'nullable|string|max:255',
+            'caracteristicas.fuente' => 'nullable|string|max:255',
+            'caracteristicas.perifericos' => 'nullable|string|max:255',
+
+
+
+                    ], [
             '*.required' => 'El campo :attribute es obligatorio.',
         ]);
         
@@ -136,4 +148,17 @@ class InventarioController extends Controller
 
     return view('inventario.index', compact('inventarios'));
  }
+
+
+public function show(Inventario $inventario)
+
+{
+
+return view ('inventario.show', compact('inventario'));
+
+
+}
+
+
+
 }

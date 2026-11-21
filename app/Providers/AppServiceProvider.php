@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Providers;
-
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +19,34 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
-    }
+        Gate::define('access-admin', function ($user) {
+            return $user->empleado?->rol_id === 1; 
+            });
+
+
+            Gate::define('access-manager', function ($user) {
+                return $user->empleado?->rol_id === 2;
+            });
+
+            Gate::define ('access-employee', function ($user) {
+                return $user->empleado?->rol_id === 3;
+            });
+
+
+            Gate::define('access-inventory', function ($user){
+                return in_array($user->empleado?->rol_id, [1,2,3]); 
+            });
+
+
+            Gate::define('access-auditory', function ($user){
+            return in_array($user->empleado?->rol_id, [1,2]);
+            });
+
+            Gate::define('access-empleados', function ($user) {
+            return in_array($user->empleado?->rol_id, [1,2,3]);
+            });
+
+
+}
+
 }

@@ -17,9 +17,12 @@ class RolMiddleware
 
     protected $routeMiddleware = [
          'auth' => \App\Http\Middleware\Authenticate::class,
-         'verified' => \Illuminate\Auth\Middleware\EnsureEmailsVefified::class,  
          'rol_id' =>\App\Http\Middleware\RolMiddleware::class,  
+         'verificarrol' =>\App\Http\Middleware\VerificarRol::class
     ];  
+
+ 
+
     public function handle(Request $request, Closure $next, $rol): Response         
     {
 

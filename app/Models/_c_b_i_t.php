@@ -5,11 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory; 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\LogsActivityConChanges;
 
 class _c_b_i_t extends Model
 {
-   use HasFactory;
-protected $table = '_c_b_i_t';
+   use HasFactory, SoftDeletes, LogsActivityConChanges; 
+
+   protected $table = '_c_b_i_t';
     protected $fillable=['nombre', 'parroquia_id', 'direccion'];   
 
     public function empleado(): HasMany

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CBIT extends Controller
+class bitacoraController extends Controller
 {
-    //
+    
 }

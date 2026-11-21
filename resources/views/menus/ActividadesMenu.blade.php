@@ -9,8 +9,9 @@
         </br>  
 <div class="d-flex justify-content-center flex-wrap gap-3"> 
     <a href="" class="btn-menu">Registrar Nuevo Curso</a> 
-    <a href="" class="btn-menu">Lita de Cursos</a>     
+    <a href="" class="btn-menu">Lista de Cursos</a>     
     <a href="" class="btn-menu">Revisar Inscripciones</a> 
+       
 
 
 @endsection

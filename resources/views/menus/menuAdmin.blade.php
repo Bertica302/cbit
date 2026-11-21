@@ -10,6 +10,7 @@
 
         </br>  
 <div class="d-flex justify-content-center flex-wrap gap-3"> 
+    <a href="{{route ('preregistro')}}" class="btn-menu">Nuevo Empleado</a> 
     <a href="" class="btn-menu">Revisar Inventario</a>
     <a href="" class="btn-menu">Revisar Cursos</a>   
     <a href="" class="btn-menu">Revisar Registros de Asistencia</a>
