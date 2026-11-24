@@ -41,7 +41,7 @@
     </form>
   </details>
 
-        <div class="employee-table-wrap table-responsive">
+        <div class="employee-table-wrap table-responsive employee-list-scroll" tabindex="0" aria-label="Listado de empleados desplazable">
             <table class="employee-table table table-hover align-middle text-center">
                 <thead>
                     <tr>
@@ -56,21 +56,22 @@
                 <tbody>
                     @forelse ($empleados as $empleado)
                         <tr>
-                            <td><a class="employee-name" href="{{ route('empleados.show', $empleado->id) }}">{{ $empleado->nombres }} {{ $empleado->apellidos }}</a></td>
-                            <td>{{ $empleado->cedula }}</td>
-                            <td>{{ $empleado->correo_electronico ?: 'Sin correo' }}</td>
-                            <td>{{ $empleado->_c_b_i_t->nombre ?? 'Sin sucursal' }}</td>
-                            <td>{{ $empleado->created_at?->format('Y/m/d') ?: 'sin fecha' }}</td>
-                            <td><a class="btn btn-sm btn-employee btn-employee-outline" href="{{ route('empleados.show', $empleado->id) }}">Ver perfil</a></td>
+                            <td data-label="Nombre"><a class="employee-name" href="{{ route('empleados.show', $empleado->id) }}">{{ $empleado->nombres }} {{ $empleado->apellidos }}</a></td>
+                            <td data-label="Cédula">{{ $empleado->cedula }}</td>
+                            <td data-label="Correo electrónico">{{ $empleado->correo_electronico ?: 'Sin correo' }}</td>
+                            <td data-label="Sucursal">{{ $empleado->_c_b_i_t->nombre ?? 'Sin sucursal' }}</td>
+                            <td data-label="Fecha de ingreso">{{ $empleado->created_at?->format('Y/m/d') ?: 'sin fecha' }}</td>
+                            <td data-label="Acciones"><a class="btn btn-sm btn-employee btn-employee-outline" href="{{ route('empleados.show', $empleado->id) }}">Ver perfil</a></td>
                             
                         </tr>
                     @empty
                         <tr>
-                            <td class="employee-muted py-4" colspan="5">No hay empleados registrados.</td>
+                            <td class="employee-muted py-4" colspan="6">No hay empleados registrados.</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
+        </div>
             <div class="d-flex justify-content-center mt-3">
   <div class="d-flex justify-content-center mt-4">
     {{ $empleados->links('pagination::bootstrap-5') }}

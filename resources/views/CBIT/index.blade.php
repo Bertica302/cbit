@@ -36,7 +36,7 @@
     </form>
   </details>
 
-		<div class="employee-table-wrap table-responsive">
+		<div class="employee-table-wrap table-responsive employee-list-scroll" tabindex="0" aria-label="Listado de centros CBIT desplazable">
 			<table class="employee-table table table-hover align-middle text-center">
 				<thead>
 					<tr>
@@ -51,32 +51,29 @@
 					@forelse ($cbits as $cbit)
 						<tr>
 							
-							<td>
+							<td data-label="Centro">
 								<a class="employee-name" href="{{ route('cbit.show', $cbit->id) }}">{{ $cbit->nombre }}</a>
 							</td>
 						
-							<td>{{ $cbit->parroquia->nombre_parroquia ?? 'Sin parroquia' }}</td>
-							<td>{{ $cbit->direccion ?: 'Sin dirección registrada' }}</td>
-							<td>{{ $cbit->created_at?->format('Y/m/d') ?: 'sin fecha' }}</td>
+							<td data-label="Parroquia">{{ $cbit->parroquia->nombre_parroquia ?? 'Sin parroquia' }}</td>
+							<td data-label="Dirección">{{ $cbit->direccion ?: 'Sin dirección registrada' }}</td>
+							<td data-label="Fecha de registro">{{ $cbit->created_at?->format('Y/m/d') ?: 'sin fecha' }}</td>
 
-							<td>
+							<td data-label="Acciones">
 								<a class="btn btn-sm btn-employee btn-employee-outline" href="{{ route('cbit.show', $cbit->id) }}">Ver centro</a>
-							</td>
 							@can('access-admin')
-							        <td> <a class="btn btn-primary btn-sm" href="{{route('cbit.edit', $cbit->id) }}"><i class="bi bi-pencil"></i></a>
-        
-           
-            <form method="post" action="{{route('cbit.destroy', $cbit->id)}}">
-                @csrf
-                @method('DELETE')
-        <button  type="submit" class="btn btn-danger btn-sm" onclick="return confirm('segurisimo?');"><i class="bi bi-trash"></i></button>
-             </form>
-			 @endcan
-    </td>
+								<a class="btn btn-primary btn-sm" href="{{ route('cbit.edit', $cbit->id) }}" aria-label="Editar centro"><i class="bi bi-pencil" aria-hidden="true"></i></a>
+								<form class="d-inline" method="post" action="{{ route('cbit.destroy', $cbit->id) }}">
+									@csrf
+									@method('DELETE')
+									<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('segurisimo?');" aria-label="Eliminar centro"><i class="bi bi-trash" aria-hidden="true"></i></button>
+								</form>
+							@endcan
+							</td>
 						</tr>
 					@empty
 						<tr>
-							<td class="employee-muted py-4" colspan="4">No hay centros CBIT registrados.</td>
+							<td class="employee-muted py-4" colspan="5">No hay centros CBIT registrados.</td>
 						</tr>
 					@endforelse
 				</tbody>

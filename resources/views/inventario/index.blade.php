@@ -90,7 +90,7 @@
     </form>
   </details>
 
-  <div class="employee-table-wrap table-responsive">
+  <div class="employee-table-wrap table-responsive employee-list-scroll" tabindex="0" aria-label="Listado de inventario desplazable">
     <table class="employee-table table table-hover align-middle text-center" id="TablaIndex">
       <thead>
         <tr>
@@ -109,16 +109,16 @@
       <tbody>
         @forelse ($inventarios as $inventario)
           <tr>
-            <td>{{ $inventarios->firstItem() + $loop->index }}</td>
-            <td>{{ $inventario->usuario->nombreUsuario ?? 'Sin usuario' }}</td>
-            <td><a class="employee-name" href="{{ route('inventario.show', $inventario->id) }}">{{ $inventario->nombre }}</td>
-            <td>{{ $inventario->tipo }}</td>
-            <td>{{ $inventario->estado }}</td>
-            <td>{{ $inventario->marca }}</td>
-            <td>{{ $inventario->modelo }}</td>
-            <td>{{ $inventario->serial }}</td>
-            <td>{{ $inventario->created_at?->format('d/m/Y') }}</td>
-            <td>
+            <td data-label="#">{{ $inventarios->firstItem() + $loop->index }}</td>
+            <td data-label="Usuario">{{ $inventario->usuario->nombreUsuario ?? 'Sin usuario' }}</td>
+            <td data-label="Nombre"><a class="employee-name" href="{{ route('inventario.show', $inventario->id) }}">{{ $inventario->nombre }}</a></td>
+            <td data-label="Tipo">{{ $inventario->tipo }}</td>
+            <td data-label="Estado">{{ $inventario->estado }}</td>
+            <td data-label="Marca">{{ $inventario->marca }}</td>
+            <td data-label="Modelo">{{ $inventario->modelo }}</td>
+            <td data-label="Serial">{{ $inventario->serial }}</td>
+            <td data-label="Fecha de registro">{{ $inventario->created_at?->format('d/m/Y') }}</td>
+            <td data-label="Acciones">
               <div class="d-flex justify-content-center gap-2">
                 <a class="btn btn-sm btn-employee btn-employee-outline" href="{{ route('inventario.edit', $inventario) }}" title="Editar" aria-label="Editar {{ $inventario->nombre }}">
                   <i class="bi bi-pencil" aria-hidden="true"></i>

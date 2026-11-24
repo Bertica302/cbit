@@ -58,6 +58,7 @@ class InventarioAutorizacionTest extends TestCase
     {
         return [
             'nombre' => 'A',
+            // 'nombre' => 'X' 101 veces,
             'tipo' => 'A',
             'estado' => 'operativo',
             'marca' => 'A',
@@ -115,7 +116,7 @@ class InventarioAutorizacionTest extends TestCase
         foreach ($limites as $campo => $maximo) {
             $datos = $this->datosRegistro();
             $datos[$campo] = str_repeat('X', $maximo + 1);
-
+        // $datos['nombre] = str_repeat('x), $maximo + 1);
             $this->actingAs($usuario)
                 ->withSession(['id' => $usuario->id])
                 ->post(route('inventario.store'), $datos)

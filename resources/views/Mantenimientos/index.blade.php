@@ -40,7 +40,7 @@
     </form>
   </details>
 
-        <div class="employee-table-wrap table-responsive">
+        <div class="employee-table-wrap table-responsive employee-list-scroll" tabindex="0" aria-label="Listado de mantenimientos desplazable">
             <table class="employee-table table table-hover align-middle text-center">
                 <thead>
                     <tr>
@@ -56,13 +56,13 @@
                 <tbody>
                     @forelse ($mantenimientos as $mantenimiento)
                         <tr>
-                            <td>{{  ucfirst($mantenimiento->inventario?->nombre) ?? 'Equipo no disponible' }}</td>
-                            <td>{{  ucfirst($mantenimiento->tipo) }}</td>
-                            <td>{{  ucfirst($mantenimiento->descripcion) }}</td>
-                            <td>{{  ucfirst($mantenimiento->tecnico) ?: 'Sin asignar' }}</td>
-                            <td>{{ ucfirst($mantenimiento->estado) }}</td>
-                            <td>{{ $mantenimiento->fecha_retorno ? $mantenimiento->fecha_retorno : 'Sin fecha' }}</td>
-                            <td class="text-end">
+                            <td data-label="Equipo">{{ ucfirst($mantenimiento->inventario?->nombre) ?? 'Equipo no disponible' }}</td>
+                            <td data-label="Tipo">{{ ucfirst($mantenimiento->tipo) }}</td>
+                            <td data-label="Descripción">{{ ucfirst($mantenimiento->descripcion) }}</td>
+                            <td data-label="Técnico">{{ ucfirst($mantenimiento->tecnico) ?: 'Sin asignar' }}</td>
+                            <td data-label="Estado">{{ ucfirst($mantenimiento->estado) }}</td>
+                            <td data-label="Fecha de retorno">{{ $mantenimiento->fecha_retorno ? $mantenimiento->fecha_retorno : 'Sin fecha' }}</td>
+                            <td data-label="Acciones" class="text-end">
                                 <a href="{{ route('mantenimientos.edit', $mantenimiento->id) }}" class="btn btn-sm btn-outline-primary">Editar</a>
                             </td>
                         </tr>
@@ -73,12 +73,12 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
             <div class="d-flex justify-content-center mt-3">
                 {{ $mantenimientos->links() }}
             </div>
             <div class="d-flex justify-content-center mt-3">
             <a class="btn btn-employee btn-employee-primary" href="{{ route('dashboard') }}">Ir al inicio</a>
 </div>
-        </div>
     </main>
 @endsection

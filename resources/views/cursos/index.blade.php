@@ -58,7 +58,7 @@
             </form>
         </details>
 
-        <div class="employee-table-wrap table-responsive">
+        <div class="employee-table-wrap table-responsive employee-list-scroll" tabindex="0" aria-label="Listado de cursos y talleres desplazable">
             <table class="employee-table table table-hover align-middle text-center">
                 <thead>
                     <tr>
@@ -75,12 +75,12 @@
                 <tbody>
                     @forelse ($cursos as $curso)
                         <tr>
-                            <td><a class="employee-name" href="{{ route('cursos.show', $curso->id) }}">{{ $curso->nombre }}</a></td>
-                            <td><span class="badge bg-secondary">{{ ucfirst($curso->tipo) }}</span></td>
-                            <td class="text-start">{{ $curso->descripcion }}</td>
-                            <td>{{ $curso->user->empleado->nombres ?? 'Desconocido' }}</td>
-                            <td>{{ $curso->cbit->nombre ?? 'N/A' }}</td>
-                            <td>
+                            <td data-label="Nombre"><a class="employee-name" href="{{ route('cursos.show', $curso->id) }}">{{ $curso->nombre }}</a></td>
+                            <td data-label="Tipo"><span class="badge bg-secondary">{{ ucfirst($curso->tipo) }}</span></td>
+                            <td data-label="Descripción" class="text-start">{{ $curso->descripcion }}</td>
+                            <td data-label="Registrado por">{{ $curso->user->empleado->nombres ?? 'Desconocido' }}</td>
+                            <td data-label="CBIT">{{ $curso->cbit->nombre ?? 'N/A' }}</td>
+                            <td data-label="Estado">
                                 @if (!$curso->activo)
                                     <span class="badge bg-danger">Inactivo</span>
                                 @elseif ($curso->estaVencido)
@@ -89,8 +89,8 @@
                                     <span class="badge bg-success">Activo</span>
                                 @endif
                             </td>
-                            <td>{{ $curso->fecha_fin ?? 'No especificada' }}</td>
-                            <td>
+                            <td data-label="Finaliza">{{ $curso->fecha_fin ?? 'No especificada' }}</td>
+                            <td data-label="Acciones">
                                 <div class="d-flex justify-content-center gap-2">
                                     <a class="btn btn-sm btn-employee btn-employee-outline" href="{{ route('cursos.edit', $curso->id) }}" title="Editar" aria-label="Editar {{ $curso->nombre }}">
                                         <i class="bi bi-pencil" aria-hidden="true"></i>
