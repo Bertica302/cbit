@@ -1,0 +1,179 @@
+========================================================================
+              MANUAL DE USUARIO — SISTEMA CBIT
+     Centros Bolivarianos de Informática y Telemática
+========================================================================
+
+Versión: 1.0
+Última actualización: 2026
+
+------------------------------------------------------------------------
+1. INTRODUCCIÓN
+------------------------------------------------------------------------
+El Sistema CBIT es una plataforma web desarrollada en Laravel para la
+gestión de los Centros Bolivarianos de Informática y Telemática. Permite
+administrar empleados, inventario, mantenimientos, cursos/talleres,
+reportes de incidencias y consultar la auditoría del sistema.
+
+Cada usuario pertenece a un CBIT (centro de trabajo) y, dependiendo de su
+rol, podrá acceder a diferentes módulos del sistema.
+
+------------------------------------------------------------------------
+2. ROLES DEL SISTEMA
+------------------------------------------------------------------------
+  • Rol 1 — Administrador:
+      Acceso total. Puede crear, editar y eliminar registros en todos
+      los módulos, gestionar empleados, CBIT y consultar la auditoría.
+
+  • Rol 2 — Manager (Coordinador):
+      Puede gestionar inventario, empleados y consultar la auditoría.
+
+  • Rol 3 — Empleado:
+      Puede consultar y gestionar el inventario y sus actividades.
+
+------------------------------------------------------------------------
+3. INICIO DE SESIÓN
+------------------------------------------------------------------------
+1. Ingrese a la URL del sistema.
+2. Escriba su nombre de usuario y contraseña.
+3. Presione "Ingresar".
+
+Si olvidó su contraseña:
+  1. Pulse "Olvidé mi contraseña" en la pantalla de inicio.
+  2. Ingrese el correo asociado a su cuenta.
+  3. Responda las preguntas de seguridad configuradas.
+  4. Defina una nueva contraseña (mínimo 8 caracteres).
+
+------------------------------------------------------------------------
+4. REGISTRO INICIAL (SOLO PRIMERA VEZ)
+------------------------------------------------------------------------
+Si el sistema es nuevo y no existe ningún administrador:
+  1. Vaya a la pantalla de inicio de sesión.
+  2. Pulse "¿No tienes una cuenta? ¡Regístrate!".
+  3. Complete sus datos personales, credenciales y preguntas de
+     seguridad.
+  4. Ingrese la clave de instalación (INSTALL_TOKEN) proporcionada
+     por el administrador de TI.
+  5. Al guardar, se creará el primer usuario administrador.
+
+------------------------------------------------------------------------
+5. REGISTRO DE EMPLEADOS
+------------------------------------------------------------------------
+Solo el administrador y el manager pueden preregistrar empleados:
+
+  1. Vaya al módulo "Control de empleados".
+  2. Pulse "Agregar empleado".
+  3. Seleccione Estado → Municipio → Parroquia → CBIT.
+  4. Complete nombres, apellidos, cédula y rol del nuevo empleado.
+  5. Guarde el registro.
+
+El empleado luego deberá completar su registro desde la pantalla de
+inicio de sesión:
+  • Ingrese su cédula.
+  • Complete sus datos personales y de contacto.
+  • Cree su nombre de usuario, contraseña y preguntas de seguridad.
+
+------------------------------------------------------------------------
+6. GESTIÓN DE CBIT
+------------------------------------------------------------------------
+Desde el módulo "Otros CBIT" puede:
+  • Ver el listado de centros y su parroquia.
+  • Registrar un nuevo centro (solo administrador).
+  • Editar o eliminar un centro (solo administrador).
+  • Ver el personal asignado a cada centro.
+
+------------------------------------------------------------------------
+7. CONTROL DE INVENTARIO
+------------------------------------------------------------------------
+  • Registrar equipo: Nombre, tipo, estado (operativo / no operativo),
+    marca, modelo, serial y características (procesador, RAM,
+    almacenamiento, tarjeta gráfica, motherboard, fuente, periféricos).
+
+  • Editar / eliminar: disponible desde el listado (según permisos).
+
+  • Filtrar: por usuario, nombre, tipo, modelo, estado, marca, serial
+    o fecha de registro.
+
+  • Reportes:
+      - Equipos Operativos (RIO)
+      - Equipos No Operativos (RINO)
+    Ambos reportes se pueden imprimir o guardar en PDF.
+
+------------------------------------------------------------------------
+8. MANTENIMIENTOS
+------------------------------------------------------------------------
+  • Registrar mantenimiento: seleccione el equipo, indique tipo,
+    descripción y técnico. El equipo pasará a estado "mantenimiento".
+
+  • Editar mantenimiento: actualice tipo, descripción, técnico y
+    estado (pendiente / operativo / en proceso) y fecha de retorno.
+
+  • Cuando el estado se marca como "operativo", el equipo vuelve
+    automáticamente a estado operativo en el inventario.
+
+------------------------------------------------------------------------
+9. CURSOS Y TALLERES
+------------------------------------------------------------------------
+  • Crear actividad: nombre, tipo (curso / taller), descripción,
+    fecha de finalización y estado (activo / inactivo).
+
+  • Editar / eliminar: desde el listado.
+
+  • Filtros: por nombre, tipo, estado y fecha de finalización.
+
+  • Estado automático:
+      - Activo: si está activo y la fecha no ha vencido.
+      - Vencido: si la fecha de finalización ya pasó.
+      - Inactivo: si fue desactivado manualmente.
+
+------------------------------------------------------------------------
+10. AUDITORÍA
+------------------------------------------------------------------------
+El sistema registra automáticamente cada creación, actualización o
+eliminación de registros (a través del paquete Spatie Activity Log).
+
+  • Ver listado de movimientos: ID, nombre del log, acción, usuario,
+    modelo afectado, número de registro y fecha.
+
+  • Ver detalle: muestra los valores creados, los cambios (antes/
+    después) o los datos del registro eliminado.
+
+Solo usuarios con rol 1 o 2 pueden acceder a esta sección.
+
+------------------------------------------------------------------------
+11. REPORTE DE INCIDENCIAS
+------------------------------------------------------------------------
+Desde el widget flotante de ayuda (esquina inferior derecha):
+
+  1. Pulse "Reporte de incidencias".
+  2. Complete asunto, categoría (personal, infraestructura, equipos,
+     otros), prioridad (baja, media, alta) y descripción.
+  3. Envíe el reporte. Recibirá un folio de confirmación.
+
+  • Ver reportes: listado con folio, asunto, categoría, prioridad,
+    estado, usuario y fecha. Puede marcar como resuelto, reabrir o
+    eliminar (soft delete) cada reporte.
+
+------------------------------------------------------------------------
+12. MANUAL DE USUARIO
+------------------------------------------------------------------------
+Desde el widget de ayuda:
+  • "Leer manual": abre el manual en una nueva pestaña para consulta.
+  • "Descargar manual": descarga el archivo .txt a su equipo.
+
+------------------------------------------------------------------------
+13. CERRAR SESIÓN
+------------------------------------------------------------------------
+Pulse el botón "Cerrar sesión" al final de la barra lateral izquierda.
+
+Por seguridad, el sistema no permite volver atrás con el navegador
+después de cerrar sesión.
+
+------------------------------------------------------------------------
+14. SOPORTE
+------------------------------------------------------------------------
+Si presenta inconvenientes técnicos, comuníquese con el administrador
+del sistema o con el equipo de Fundabit.
+
+========================================================================
+              FIN DEL MANUAL — SISTEMA CBIT
+========================================================================

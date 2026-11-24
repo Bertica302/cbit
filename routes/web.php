@@ -157,14 +157,16 @@ Route::get('/cursos/{id}', [CursoController::class, 'show'])->name('cursos.show'
 
 // ===== Botón de ayuda =====
 Route::middleware('auth')->group(function () {
-    Route::view('/ayuda/soporte', 'ayuda.soporte')->name('ayuda.soporte');
-
     Route::get('/ayuda/incidencia', [\App\Http\Controllers\ReporteIncidenciaController::class, 'create'])->name('ayuda.incidencia');
     Route::post('/ayuda/incidencia', [\App\Http\Controllers\ReporteIncidenciaController::class, 'store'])->name('ayuda.incidencia.store');
     Route::get('/ayuda/incidencia/{incidencia}/gracias', [\App\Http\Controllers\ReporteIncidenciaController::class, 'gracias'])->name('ayuda.incidencia.gracias');
 
-    Route::get('/ayuda/incidencias', [\App\Http\Controllers\ReporteIncidenciaController::class, 'index'])->name('ayuda.incidencias.index');    Route::patch('/ayuda/incidencias/{incidencia}/estado', [\App\Http\Controllers\ReporteIncidenciaController::class, 'cambiarEstado'])->name('ayuda.incidencias.estado');
+    Route::get('/ayuda/incidencias', [\App\Http\Controllers\ReporteIncidenciaController::class, 'index'])->name('ayuda.incidencias.index');
+    Route::patch('/ayuda/incidencias/{incidencia}/estado', [\App\Http\Controllers\ReporteIncidenciaController::class, 'cambiarEstado'])->name('ayuda.incidencias.estado');
     Route::delete('/ayuda/incidencias/{incidencia}', [\App\Http\Controllers\ReporteIncidenciaController::class, 'destroy'])->name('ayuda.incidencias.destroy');
 
+    // Manual de usuario: leer (modal) + descargar
     Route::get('/ayuda/manual', [\App\Http\Controllers\ManualController::class, 'descargar'])->name('ayuda.manual');
+    Route::get('/ayuda/manual/leer', [\App\Http\Controllers\ManualController::class, 'leer'])->name('ayuda.manual.leer');
 });
+// Cambios de Kevin para el Pull Request
